@@ -4,10 +4,10 @@
 ## backend
 
 ### command
-php artisan serve
+`php artisan serve`
 
 ### listen on 
-http://127.0.0.1:8080/
+`http://127.0.0.1:8080/`
 
 
 ## frontend
@@ -15,11 +15,11 @@ http://127.0.0.1:8080/
 ### command
 
 #### Compiles and hot-reloads for development
-cd frontend && npm run serve
+`cd frontend && npm run serve`
 #### Compiles and minifies for production
-cd frontend && npm run build
+`cd frontend && npm run build`
 
 ### listen on 
-http://127.0.0.1:8000/
+`http://127.0.0.1:8000/`
 
 
