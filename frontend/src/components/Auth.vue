@@ -1,17 +1,13 @@
 <template>
-  <div class="w-50 mx-auto clearfix px-5 mb-4">
-    <div class="d-flex justify-content-center mb-3">
+  <div>
+    <div>
+ 
       <router-link :to="{ name: 'profile' }" class="btn btn-secondary">Profile(protected route)</router-link>
 
-      <router-link
-        :to="{ name: 'signup' }"
-        class="btn btn-secondary ml-2"
-      >Sign up(only guests route)</router-link>
+      <router-link :to="{ name: 'signup' }">Sign up(only guests route)</router-link>
 
-      <router-link
-        :to="{ name: 'signin' }"
-        class="btn btn-secondary ml-2"
-      >Sign in(only guests route)</router-link>
+      <router-link :to="{ name: 'signin' }">Sign in(only guests route)</router-link>
+
     </div>
 
     <b>Logged in:</b>
@@ -43,7 +39,7 @@ import { mapActions, mapState, mapGetters } from "vuex";
 export default {
   data: () => ({
     form: {
-      email: "test@test.com",
+      email: "test@tesst.com",
       password: "password"
     },
     loading: false,
@@ -109,3 +105,6 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+</style>

@@ -11,13 +11,11 @@
           id="signinInputEmail"
           v-model="form.email"
           :error-messages="errors.collect('email')"
-          :class="{
-            'form-control': true,
+          :class="{ 
             'is-invalid': errors.has('email')
           }"
           data-vv-name="email"
-          type="email"
-          class="form-control"
+          type="email" 
           placeholder="Enter email"
         >
         <div
@@ -30,8 +28,7 @@
           v-validate="$formValidator.rules.password"
           id="signinInputPassword"
           v-model="form.password"
-          :class="{
-            'form-control': true,
+          :class="{ 
             'is-invalid': errors.has('password')
           }"
           data-vv-name="password"
