@@ -28,8 +28,8 @@ class AuthController extends BaseController
 
         event(new Registered($user));
 
-        return $this->tokenDataAndUser($user);
-//        return $this->sendResponse(NULL, 'Successfully sign up!', 201);
+//        return $this->tokenDataAndUser($user);
+      return $this->sendResponse(NULL, 'Successfully sign up!', 200);
     }
 
     /**

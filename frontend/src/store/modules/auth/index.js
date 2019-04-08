@@ -1,7 +1,15 @@
 import store from '@/store'
 import router from '@/router'
-import { vp } from '@/tools/helpers'
-import { USER, USER_LOGGED_IN, USER_LOGGED_OUT, TOKEN, REFRESH_TOKEN_EXPIRED } from './mutation-types'
+import {
+  vp
+} from '@/tools/helpers'
+import {
+  USER,
+  USER_LOGGED_IN,
+  USER_LOGGED_OUT,
+  TOKEN,
+  REFRESH_TOKEN_EXPIRED
+} from './mutation-types'
 import forgotPassword from './modules/forgotPassword/'
 import emailVerification from './modules/emailVerification/'
 
@@ -29,14 +37,14 @@ const module = {
     refreshTokenAlreadyExpired: false
   },
   mutations: {
-    [USER] (state, user) {
+    [USER](state, user) {
       state.user = user
 
       localStorage.setItem(localStorageKeys.user, JSON.stringify(user))
 
       return user
     },
-    [TOKEN] (state, token) {
+    [TOKEN](state, token) {
       console.log('token_global', token)
       state.token = (token && token.accessToken) || ''
       state.tokenExpiresIn = +(token && token.expiresIn) || ''
@@ -46,28 +54,32 @@ const module = {
       localStorage.setItem(localStorageKeys.tokenExpiresIn, state.tokenExpiresIn)
       localStorage.setItem(localStorageKeys.refreshTokenExpiresIn, state.refreshTokenExpiresIn)
     },
-    [REFRESH_TOKEN_EXPIRED] (state) {
+    [REFRESH_TOKEN_EXPIRED](state) {
       if (state.refreshTokenAlreadyExpired) return
 
       state.refreshTokenAlreadyExpired = true
       stopTokenRefresh()
       showRefreshTokenExpiredMessage()
     },
-    [USER_LOGGED_IN] (state) {
+    [USER_LOGGED_IN](state) {
       state.refreshTokenAlreadyExpired = false
       // console.log(store.state.route.path)
       if (store.state.route.meta.guest) {
-        router.push({ name: 'profile' })
+        router.push({
+          name: 'profile'
+        })
       }
 
       setTimeoutTokenRefresh(state)
     },
-    [USER_LOGGED_OUT] (state, manually) {
+    [USER_LOGGED_OUT](state, manually) {
       stopTokenRefresh()
 
       // If route requires auth or guest, then redirect
       if (store.state.route.meta.auth) {
-        router.push({ name: 'signin' })
+        router.push({
+          name: 'signin'
+        })
       }
       if (store.state.route.meta.guest) {
         router.push('/')
@@ -75,20 +87,38 @@ const module = {
     }
   },
   actions: {
-    async signin ({ dispatch, commit }, form) {
+    async signin({
+      dispatch,
+      commit
+    }, form) {
       const loggedInData = await vp.$post('auth/signin', form)
 
       await dispatch('loggedIn', loggedInData)
     },
-    async signup ({ dispatch, commit }, form) {
+    async signup({
+      dispatch,
+      commit
+    }, form) {
+      console.log(form);
+
       const loggedInData = await vp.$post('auth/signup', form)
+      console.log("here");
+
       loggedInData.showMsg = false
+      console.log("here");
 
       await dispatch('loggedIn', loggedInData)
 
       vp.$notify.success('Registered successfully!')
     },
-    async loggedIn ({ dispatch, commit }, { user, tokenInfo, showMsg = true }) {
+    async loggedIn({
+      dispatch,
+      commit
+    }, {
+      user,
+      tokenInfo,
+      showMsg = true
+    }) {
       commit(TOKEN, tokenInfo)
       commit(USER, user)
       commit(USER_LOGGED_IN)
@@ -97,17 +127,28 @@ const module = {
         vp.$notify.success('logged in successfully!')
       }
     },
-    async getUser ({ commit }) {
-      const { user } = await vp.$get('auth/user')
+    async getUser({
+      commit
+    }) {
+      const {
+        user
+      } = await vp.$get('auth/user')
       return commit(USER, user)
     },
-    async logout ({ dispatch, commit }) {
+    async logout({
+      dispatch,
+      commit
+    }) {
       await vp.$post('auth/logout')
       await dispatch('setNullTokenAndUser')
       commit(USER_LOGGED_OUT, true)
       vp.$notify.success('Logged out successfully.')
     },
-    async refresh ({ dispatch, commit, state }) {
+    async refresh({
+      dispatch,
+      commit,
+      state
+    }) {
       const tokenInfo = await vp.$post('auth/refresh')
 
       if (tokenInfo.status === 'tokenAlreadyRefreshed') return
@@ -119,37 +160,48 @@ const module = {
       commit(TOKEN, tokenInfo)
       setTimeoutTokenRefresh(state)
     },
-    async refreshTokenExpired ({ dispatch, commit }) {
+    async refreshTokenExpired({
+      dispatch,
+      commit
+    }) {
       await dispatch('setNullTokenAndUser')
       commit(REFRESH_TOKEN_EXPIRED)
       commit(USER_LOGGED_OUT, false)
     },
-    async setNullUser ({ commit }) {
+    async setNullUser({
+      commit
+    }) {
       commit(USER, null)
     },
-    async setNullTokenAndUser ({ commit }) {
+    async setNullTokenAndUser({
+      commit
+    }) {
       commit(TOKEN, null)
       commit(USER, null)
     },
     // save user from server here after editing
-    async setUser ({ commit }, user) {
+    async setUser({
+      commit
+    }, user) {
       commit(USER, user)
     },
-    async init ({ state }) {
+    async init({
+      state
+    }) {
       setTimeoutTokenRefresh(state)
     }
   },
   getters: {
-    loggedIn (state) {
+    loggedIn(state) {
       return !!state.user
     },
-    tokenNeedToRefresh (state) {
+    tokenNeedToRefresh(state) {
       const needToRefreshStart = state.tokenExpiresIn - tokenSecondBeforeExpired
       const now = Math.floor(Date.now() / 1000) // need to / 1000 because Date.now() return ms not seconds
 
       return state.token && needToRefreshStart < now
     },
-    tokenExpired (state) { // true if token expired
+    tokenExpired(state) { // true if token expired
       return state.tokenExpiresIn < Math.floor(Date.now() / 1000)
     }
   }
@@ -158,7 +210,10 @@ const module = {
 // export module
 export default module
 
-function setTimeoutTokenRefresh ({ token, tokenExpiresIn }) {
+function setTimeoutTokenRefresh({
+  token,
+  tokenExpiresIn
+}) {
   if (!token) {
     return
   }
@@ -173,10 +228,10 @@ function setTimeoutTokenRefresh ({ token, tokenExpiresIn }) {
   }, ms2)
 }
 
-function stopTokenRefresh () {
+function stopTokenRefresh() {
   clearTimeout(refreshTimeoutId) // because we dont need to refresh token
 }
 
-function showRefreshTokenExpiredMessage () {
+function showRefreshTokenExpiredMessage() {
   vp.$notify.info('Please, log in again')
 }

@@ -3,25 +3,22 @@ import Home from '@/pages/Home.vue'
 
 import auth from './groups/auth'
 import profile from './groups/profile'
-import other from './groups/other'
+import article from './groups/article'
 
-export default [
-  {
-    path: '/',
-    component: MainLayout,
-    children: [
-      {
-        name: 'home',
-        path: '',
-        component: Home
-      },
-      ...auth,
-      ...profile,
-      ...other,
-      {
-        path: '*',
-        component: () => import(/* webpackChunkName: "page404" */ '@/pages/404.vue')
-      }
-    ]
-  }
-]
+export default [{
+  path: '/',
+  component: MainLayout,
+  children: [{
+      name: 'home',
+      path: '',
+      component: Home
+    },
+    ...auth,
+    ...profile,
+    ...article,
+    {
+      path: '*',
+      component: () => import('@/pages/404.vue')
+    }
+  ]
+}]
