@@ -4,8 +4,9 @@ import router from '@/router'
 import store from '@/store'
 
 // style
-import 'bootstrap'
 import 'jquery'
+import 'bootstrap'
+
 // Plugins
 import './plugins/vue-plugin-axios'
 import './plugins/notifications'
@@ -14,24 +15,24 @@ import './plugins/validator'
 Vue.config.productionTip = false
 
 Vue.prototype.$auth = {
-  get user () {
-    return store.state.auth.user
-  },
-  get loggedIn () {
-    return store.getters['auth/loggedIn']
-  }
+    get user() {
+        return store.state.auth.user
+    },
+    get loggedIn() {
+        return store.getters['auth/loggedIn']
+    }
 }
 
 // It makes it easy to launch an action in a component that is bound to the loading
 Vue.prototype.$actionWithLoading = async function (action, loadingVariable = 'loading', ...arg) {
-  this[loadingVariable] = true
-  try {
-    await action(...arg)
-  } catch (e) {
-    throw e // so that the error can be caught above
-  } finally {
-    this[loadingVariable] = false
-  }
+    this[loadingVariable] = true
+    try {
+        await action(...arg)
+    } catch (e) {
+        throw e // so that the error can be caught above
+    } finally {
+        this[loadingVariable] = false
+    }
 }
 
 // export async function actionWithLoading (action, loadingVariable, ...arg) {
@@ -44,9 +45,9 @@ Vue.prototype.$actionWithLoading = async function (action, loadingVariable = 'lo
 // }
 
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app')
 
 // init auth module

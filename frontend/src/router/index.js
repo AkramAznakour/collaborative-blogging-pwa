@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import { sync } from 'vuex-router-sync'
+import {
+  sync
+} from 'vuex-router-sync'
 import routes from './routes'
 import store from '@/store'
 import globalMiddleware from './middleware/global-middleware'

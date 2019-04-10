@@ -1,31 +1,31 @@
-# laravel-vue
+# Frontend 
 
 ## Project setup
 ```
-yarn install
+npm install
 ```
 
 ### Compiles and hot-reloads for development
 ```
-yarn run serve
+npm run serve
 ```
 
 ### Compiles and minifies for production
 ```
-yarn run build
+npm run build
 ```
 
 ### Lints and fixes files
 ```
-yarn run lint
+npm run lint
 ```
 
 ### Run your unit tests
 ```
-yarn run test:unit
+npm run test:unit
 ```
 
 ### Run your end-to-end tests
 ```
-yarn run test:e2e
+npm run test:e2e
 ```

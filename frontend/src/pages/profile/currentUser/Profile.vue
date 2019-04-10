@@ -33,7 +33,10 @@
 <script>
 export default {
   name: "Profile",
-  data: () => ({})
+  data: () => ({}),
+  mounted() {
+    console.log(this.$auth);
+  }
 };
 </script>
  

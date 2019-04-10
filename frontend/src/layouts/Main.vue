@@ -15,7 +15,6 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
-import VerifyEmailAlert from "@/components/layout/main/VerifyEmail.vue";
 import AppNavBar from "@/components/layout/AppNavBar.vue";
 import AppFooter from "@/components/layout/AppFooter.vue";
 
