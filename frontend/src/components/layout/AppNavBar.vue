@@ -44,7 +44,7 @@
               <a href @click.prevent="$router.push({ name: 'profile' })">
                 <img
                   class="rounded-circle shadow"
-                  src="../../assets/img/demo/avatar2.jpg"
+                  src="http://localhost:8000/img/avatar2.jpg"
                   width="40"
                 >
               </a>

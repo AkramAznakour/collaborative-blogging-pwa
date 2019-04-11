@@ -17,10 +17,14 @@ export default {
   computed: {
     ...mapState("auth", ["user"]),
     ...mapGetters("auth", ["loggedIn", "tokenExpired"])
+  },
+  async mounted() {
+    await this.$store.dispatch("auth/init");
+    if (this.loggedIn && this.tokenExpired) {
+      localStorage.clear();
+      this.$router;
+    }
   }
-  // async mounted () {
-  //   await this.$store.dispatch('auth/init')
-  // }
 };
 </script>
 

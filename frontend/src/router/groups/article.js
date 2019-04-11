@@ -1,12 +1,8 @@
 export default [{
-  path: '/article',
-  component: () => import('@/pages/Article.vue'),
-  children: [{
-    name: 'article',
-    path: '',
+    path: '/article/:id',
+    name: "article",
     component: () => import('@/pages/Article.vue'),
     meta: {
-      auth: false
+        auth: false
     }
-  }]
 }]

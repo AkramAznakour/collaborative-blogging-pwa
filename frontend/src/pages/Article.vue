@@ -11,14 +11,15 @@ HEADER
               <p class="text-uppercase font-weight-bold">
                 <a class="text-danger" href="./category.html">Stories</a>
               </p>
-              <h1
-                class="display-4 secondfont mb-3 font-weight-bold"
-              >Sterling could jump 8% if Brexit deal gets approved by UK Parliament</h1>
+              <h1 class="display-4 secondfont mb-3 font-weight-bold">
+                -{{$route.params.id}}-
+                Sterling could jump 8% if Brexit deal gets approved by UK Parliament
+              </h1>
               <p
                 class="mb-3"
               >Analysts told CNBC that the currency could hit anywhere between $1.35-$1.40 if the deal gets passed through the U.K. parliament.</p>
               <div class="d-flex align-items-center">
-                <img class="rounded-circle" src="../assets/img/demo/avatar2.jpg" width="70">
+                <img class="rounded-circle" src="http://localhost:8000/img/avatar2.jpg" width="70">
                 <small class="ml-2">
                   Jane Seymour
                   <span class="text-muted d-block">A few hours ago &middot; 5 min. read</span>
@@ -26,7 +27,7 @@ HEADER
               </div>
             </div>
             <div class="col-md-6 pr-0">
-              <img src="../assets/img/demo/intro.jpg">
+              <img src="http://localhost:8000/img/intro.jpg">
             </div>
           </div>
         </div>
@@ -49,7 +50,7 @@ MAIN
                 <a class="a2a_button_facebook"></a>
                 <a class="a2a_button_twitter"></a>
               </div>
-               <!-- AddToAny END -->
+              <!-- AddToAny END -->
             </div>
           </div>
         </div>
@@ -110,36 +111,30 @@ MAIN
         <div class="col-lg-6">
           <div class="flex-md-row mb-4 box-shadow h-xl-300">
             <div class="mb-3 d-flex align-items-center">
-              <img height="80" src="../assets/img/demo/blog4.jpg">
+              <img height="80" src="http://localhost:8000/img/blog4.jpg">
               <div class="pl-3">
                 <h2 class="mb-2 h6 font-weight-bold">
-                  <a
-                    class="text-dark"
-                    
-                  >Nasa's IceSat space laser makes height maps of Earth</a>
+                  <a class="text-dark">Nasa's IceSat space laser makes height maps of Earth</a>
                 </h2>
                 <div class="card-text text-muted small">Jake Bittle in LOVE/HATE</div>
                 <small class="text-muted">Dec 12 · 5 min read</small>
               </div>
             </div>
             <div class="mb-3 d-flex align-items-center">
-              <img height="80" src="../assets/img/demo/blog5.jpg">
+              <img height="80" src="http://localhost:8000/img/blog5.jpg">
               <div class="pl-3">
                 <h2 class="mb-2 h6 font-weight-bold">
-                  <a
-                    class="text-dark"
-                    
-                  >Underwater museum brings hope to Lake Titicaca</a>
+                  <a class="text-dark">Underwater museum brings hope to Lake Titicaca</a>
                 </h2>
                 <div class="card-text text-muted small">Jake Bittle in LOVE/HATE</div>
                 <small class="text-muted">Dec 12 · 5 min read</small>
               </div>
             </div>
             <div class="mb-3 d-flex align-items-center">
-              <img height="80" src="../assets/img/demo/blog6.jpg">
+              <img height="80" src="http://localhost:8000/img/blog6.jpg">
               <div class="pl-3">
                 <h2 class="mb-2 h6 font-weight-bold">
-                  <a class="text-dark" >Sun-skimming probe starts calling home</a>
+                  <a class="text-dark">Sun-skimming probe starts calling home</a>
                 </h2>
                 <div class="card-text text-muted small">Jake Bittle in LOVE/HATE</div>
                 <small class="text-muted">Dec 12 · 5 min read</small>

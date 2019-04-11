@@ -3,23 +3,19 @@
     <div class="pl-4 pr-0 h-100 tofront">
       <div class="row justify-content-between">
         <div class="col-md-6 pt-6 pb-6 align-self-center">
-          <h1 class="secondfont mb-3 font-weight-bold">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-            Laborum expedita
-          </h1>
-          <p class="mb-3">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam praesentium ipsam quasi nihil, voluptatum itaque officia sapiente quia, culpa, eum mollitia. Explicabo est adipisci, nemo aperiam harum qui id ea.
-            Nisi dolorum suscipit sapiente aliquam sequi maxime atque quas doloribus quod iure, enim quae obcaecati tenetur sed sint nulla reprehenderit, aspernatur incidunt optio consectetur voluptatum libero placeat quibusdam ratione illum?
-          </p>
+          <h1 class="secondfont mb-3 font-weight-bold">{{title}}</h1>
+          <p class="mb-3">{{description}}</p>
           <a
             href="#"
-            @click.prevent="$router.push({ name: 'article' })"
+            @click.prevent="$router.push({ name: 'article' ,params:{id:id}})"
             class="btn btn-dark"
           >Read More</a>
         </div>
-        <div class="col-md-6 d-none d-md-block pr-0" style="background-size:cover;">
-          <img src="../../assets/img/demo/home.jpg" height="100%">
-        </div>
+        <div
+          class="col-md-6 d-none d-md-block pr-0"
+          :style="{'background-image': 'url(' +imageSrc+ ')'}"
+          style="  background-size: cover; background-repeat: no-repeat ; height : 400px;"
+        ></div>
       </div>
     </div>
   </div>
@@ -28,6 +24,18 @@
 <script>
 export default {
   name: "LgArticleCard",
-  data: () => ({})
+  data: function() {
+    return {
+      imageSrc: process.env.VUE_APP_BACKEND_IMG_PATH + this.imgFileName
+    };
+  },
+  props: {
+    id: Number,
+    title: String,
+    date: String,
+    imgFileName: String,
+    description: String,
+    author: String
+  }
 };
 </script>
