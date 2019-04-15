@@ -4,11 +4,19 @@
       <div class="row justify-content-between">
         <div class="col-md-6 pt-6 pb-6 align-self-center">
           <h1 class="secondfont mb-3 font-weight-bold">{{title}}</h1>
+          <small class="d-block">
+            <a
+              class="text-muted"
+              href="#"
+              @click.prevent="$router.push({ name: 'author' ,params:{id:author}})"
+            >{{author}}</a>
+          </small>
           <p class="mb-3">{{description}}</p>
+
           <a
             href="#"
             @click.prevent="$router.push({ name: 'article' ,params:{id:id}})"
-            class="btn btn-dark"
+            class="btn btn-primary"
           >Read More</a>
         </div>
         <div

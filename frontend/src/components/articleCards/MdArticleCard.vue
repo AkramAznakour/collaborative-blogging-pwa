@@ -15,7 +15,11 @@
       <p class="card-text">{{description}}</p>
       <div>
         <small class="d-block">
-          <a class="text-muted" href="./author.html">Favid Rick</a>
+          <a
+            class="text-muted"
+            href="#"
+            @click.prevent="$router.push({ name: 'author' ,params:{id:author}})"
+          >{{author}}</a>
         </small>
         <small class="text-muted">{{date}} &middot; 5 min read</small>
       </div>

@@ -3,28 +3,34 @@ const path = require('path')
 const src = './src/'
 
 module.exports = {
-  // proxy API requests to Valet during development
-  // devServer: {
-  //     proxy: 'http://laracon.test'
-  // },
-  // assetsDir: 'assets',
+    pwa: {
+        workboxPluginMode: 'InjectManifest',
+        workboxOptions: {
+            swSrc: 'src/service-worker.js'
+        },
+        themeColor: '#1da025'
+    },
+    // proxy API requests to Valet during development
+    // devServer: {
+    //     proxy: 'http://laracon.test'
+    // },
+    // assetsDir: 'assets',
 
-  // output built static files to Laravel's public dir.
-  // note the "build" script in package.json needs to be modified as well.
-  outputDir: '../public',
+    // output built static files to Laravel's public dir.
+    // note the "build" script in package.json needs to be modified as well.
+    outputDir: '../public',
 
-  // modify the location of the generated HTML file.
-  // make sure to do this only in production.
-  indexPath: process.env.NODE_ENV === 'production' ?
-    '../resources/views/index.blade.php' :
-    'index.html',
+    // modify the location of the generated HTML file.
+    // make sure to do this only in production.
+    indexPath: process.env.NODE_ENV === 'production' ?
+        '../resources/views/index.blade.php' : 'index.html',
 
-  configureWebpack: {
-    resolve: {
-      alias: {
-        // src folder alias
-        '@': path.resolve(src)
-      }
+    configureWebpack: {
+        resolve: {
+            alias: {
+                // src folder alias
+                '@': path.resolve(src)
+            }
+        }
     }
-  }
 }

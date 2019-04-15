@@ -11,6 +11,7 @@ import 'bootstrap'
 import './plugins/vue-plugin-axios'
 import './plugins/notifications'
 import './plugins/validator'
+import './registerServiceWorker'
 
 Vue.config.productionTip = false
 

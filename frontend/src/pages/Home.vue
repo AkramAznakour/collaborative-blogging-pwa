@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="row">
     <!------- HEADER    ------->
     <div class="container">
       <LgArticleCard
-        v-for="article in articles"
-        :key="article.id"
-        :id="article.id"
+        v-for="i in [1]"
+        :key="i"
+        :id="i"
         :title="article.title"
         :date="article.date"
         :author="article.author"
@@ -18,9 +18,9 @@
       <div class="row">
         <div class="col-lg-6">
           <MdArticleCard
-            v-for="article in articles"
-            :key="article.id"
-            :id="article.id"
+            v-for="i in [1]"
+            :key="i"
+            :id="i"
             :title="article.title"
             :date="article.date"
             :author="article.author"
@@ -31,9 +31,9 @@
         <div class="col-lg-6">
           <div class="flex-md-row mb-4 box-shadow h-xl-300">
             <SmArticleCard
-              v-for="article in articles"
-              :key="article.id"
-              :id="article.id"
+              v-for="i in [1,2,3,4,5]"
+              :key="i"
+              :id="i"
               :title="article.title"
               :date="article.date"
               :author="article.author"
@@ -60,26 +60,15 @@ export default {
   data: () => ({
     users: [],
     loading: false,
-    articles: [
-      {
-        id: "1",
-        title: "Nasa's IceSat space laser makes height maps of Earth",
-        date: "Dec 12",
-        imgSource: "blog4.jpg",
-        description:
-          "Researchers have found an effective target in the brain for electrical stimulation to improve mood in people suffering from depression.",
-        author: "Jake Bittle in LOVE/HATE"
-      },
-      {
-        id: "2",
-        title: "Nasa's IceSat space laser makes height maps of Earth",
-        date: "Dec 12",
-        imgSource: "blog4.jpg",
-        description:
-          "Researchers have found an effective target in the brain for electrical stimulation to improve mood in people suffering from depression.",
-        author: "Jake Bittle in LOVE/HATE"
-      }
-    ]
+    article: {
+      id: "1",
+      title: "Nasa's IceSat space laser makes height maps of Earth",
+      date: "Dec 12",
+      imgSource: "blog4.jpg",
+      description:
+        "Researchers have found an effective target in the brain for electrical stimulation to improve mood in people suffering from depression.",
+      author: "Jake Bittle in LOVE/HATE"
+    }
   }),
   computed: {
     ...mapState("auth", ["user"]),
