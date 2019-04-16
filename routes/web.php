@@ -11,10 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/{any}', 'SpaController@index')->where('any', '^(?!api).*$'); // before the any was: ".*"
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

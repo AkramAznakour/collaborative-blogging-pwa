@@ -13,8 +13,20 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::namespace('API')->group(function () {
+    require base_path('routes/api/auth.php');
+    require base_path('routes/api/profile.php');
+    require base_path('routes/api/users.php');
+});
+
+Route::get('test', function () {
+    return [
+        'test' => 'test'
+    ];
+});
+
+Route::fallback(function() {
+    return response()->json(['message' => 'Not Found!'], 404);
 });
 
 

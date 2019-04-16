@@ -18,7 +18,11 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect('/home');
+            if ($request->ajax() || $request->wantsJson()) {
+                return response('This route only for guests.', 403);
+            } else {
+                return redirect('/home');
+            }
         }
 
         return $next($request);

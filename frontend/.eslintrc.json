@@ -1,0 +1,6 @@
+{
+    "plugins": ["example"],
+    "env": {
+        "example/custom": true
+    }
+}
