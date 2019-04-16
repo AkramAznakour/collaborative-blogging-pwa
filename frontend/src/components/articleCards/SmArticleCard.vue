@@ -6,7 +6,7 @@
         <a
           class="text-dark"
           href="#"
-          @click.prevent="$router.push({ name: 'article' ,params:{id:id}})"
+          @click.prevent="$router.push({ name: 'showArticle' ,params:{id:id}})"
         >{{title}}</a>
       </h2>
       <div class="card-text text-muted small">

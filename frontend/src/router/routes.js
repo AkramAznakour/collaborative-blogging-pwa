@@ -1,22 +1,19 @@
 import MainLayout from '@/layouts/Main.vue'
-import Home from '@/pages/Home.vue'
 
 import auth from './groups/auth'
+import home from './groups/home';
 import profile from './groups/profile'
-import article from './groups/article'
+import posts from './groups/posts'
 import others from './groups/others';
 
 export default [{
     path: '/',
     component: MainLayout,
-    children: [{
-            name: 'home',
-            path: '',
-            component: Home
-        },
+    children: [
         ...auth,
+        ...home,
         ...profile,
-        ...article,
-        ...others
+        ...posts,
+        ...others,
     ]
 }]

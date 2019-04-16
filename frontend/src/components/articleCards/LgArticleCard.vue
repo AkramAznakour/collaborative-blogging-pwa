@@ -15,7 +15,7 @@
 
           <a
             href="#"
-            @click.prevent="$router.push({ name: 'article' ,params:{id:id}})"
+            @click.prevent="$router.push({ name: 'showArticle' ,params:{id:id}})"
             class="btn btn-primary"
           >Read More</a>
         </div>

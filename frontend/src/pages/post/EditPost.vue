@@ -4,6 +4,7 @@
       :toolbars="markdownOption"
       v-model="handbook"
       ref="md"
+      :ishljs="true"
       language="en"
       @imgAdd="$imgAdd"
       @imgDel="$imgDel"
@@ -13,7 +14,7 @@
 
 <script>
 export default {
-  name: "Article",
+  name: "EditPost",
   data: function() {
     return {
       handbook: "#### how to use mavonEditor in nuxt.js"

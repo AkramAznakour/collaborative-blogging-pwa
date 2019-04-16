@@ -2,14 +2,21 @@ import Vue from 'vue'
 import App from '@/App.vue'
 import router from '@/router'
 import store from '@/store'
+
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 
-// use
+
+import "highlight.js/styles/default.css";
+import Highlight from "vue-markdown-highlight";
+Vue.use(Highlight);
+
 Vue.use(mavonEditor)
+
 // style
 import 'jquery'
 import 'bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 // Plugins
 import './plugins/vue-plugin-axios'

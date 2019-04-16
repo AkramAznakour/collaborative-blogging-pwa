@@ -42,11 +42,7 @@
             </li>
             <li class="nav-item pr-3">
               <a href @click.prevent="$router.push({ name: 'profile' })">
-                <img
-                  class="rounded-circle shadow"
-                  src="http://localhost:8000/img/avatar2.jpg"
-                  width="40"
-                >
+                <img class="rounded-circle shadow" :src="avatarImageSrc" width="40">
               </a>
             </li>
 
@@ -76,16 +72,22 @@ export default {
     loading: false,
     loadingLogout: false,
     navItems: [
-      "Intro",
-      "Culture",
-      "Tech",
-      "Politics",
-      "Health",
-      "Collections",
-      "About"
+      "python",
+      "python3",
+      "javascript",
+      "c#",
+      "ruby",
+      "linux",
+      "git",
+      "c",
+      "php",
+      "ruby-on-rails"
     ]
   }),
   computed: {
+    avatarImageSrc() {
+      return process.env.VUE_APP_BACKEND_IMG_PATH + this.$auth.user.avatar;
+    },
     ...mapState("auth", ["user"]),
     ...mapGetters("auth", ["token", "loggedIn"])
   },

@@ -9,7 +9,7 @@
         <a
           class="text-dark"
           href="#"
-          @click.prevent="$router.push({ name: 'article' ,params:{id:id}})"
+          @click.prevent="$router.push({ name: 'showArticle' ,params:{id:id}})"
         >{{title}}</a>
       </h2>
       <p class="card-text">{{description}}</p>
