@@ -5,9 +5,16 @@ namespace App;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+<<<<<<< HEAD
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+
+class User extends Authenticatable implements JWTSubject
+=======
 use App\Notifications\VerifyEmail;
 
 class User extends AuthenticatableForUser implements MustVerifyEmail
+>>>>>>> a01cb6023bb4bc31977ed4e2d572324e34603dff
 {
     use Notifiable;
 
@@ -38,6 +45,19 @@ class User extends AuthenticatableForUser implements MustVerifyEmail
      * @param $email
      * @return Builder
      */
+<<<<<<< HEAD
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+    public function getJWTCustomClaims()
+    {
+        return [];
+=======
     public function scopeOfEmail($query, $email)
     {
         return $query->where('email', $email);
@@ -51,5 +71,6 @@ class User extends AuthenticatableForUser implements MustVerifyEmail
     public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmail);
+>>>>>>> a01cb6023bb4bc31977ed4e2d572324e34603dff
     }
 }

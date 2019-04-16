@@ -28,3 +28,12 @@ Route::get('test', function () {
 Route::fallback(function() {
     return response()->json(['message' => 'Not Found!'], 404);
 });
+
+
+/*************Authentication *************/
+Route::post('register', 'Auth\AuthController@register');
+Route::post('login', 'Auth\AuthController@login');
+Route::get('user', 'Auth\AuthController@index');
+
+/**************Posts **************/
+Route::post('post/store', 'PostController@store');
