@@ -10,7 +10,7 @@ import {
     showServerError
 } from '@/tools/validator'
 
-const baseApiURL = process.env.VUE_APP_BACKEND + '/api/' // 'http://localhost:8000/api/'
+const baseApiURL = process.env.VUE_APP_BACKEND + '/api/';// 'http://localhost:8000/api/'
 
 Vue.use(VueAxios, {
     axios,
@@ -18,16 +18,28 @@ Vue.use(VueAxios, {
         baseURL: baseApiURL,
         headers: {
             // so laravel will understand that this is ajax $request->ajax()
-            'X-Requested-With': 'XMLHttpRequest'
+            'X-Requested-With': 'XMLHttpRequest',
         }
     },
     interceptors: {
         beforeRequest(config, axiosInstance) {
             if (config.baseURL === baseApiURL) {
-                const token = store.state.auth.token
+                const token = store.state.auth.token;
 
                 if (token) {
                     config.headers.Authorization = `Bearer ${token}`
+                }
+                console.log("config.url : ", config.url);
+
+                if (config.url == "profile/current/set-avatar") {
+                    console.log("it is an image");
+                    config.headers = {
+                        // so laravel will understand that this is ajax $request->ajax()
+                         'Content-Type': 'multipart/form-data',
+                        'Authorization': `Bearer ${token}`
+                    };
+
+                    console.log("header : ", config)
                 }
             }
             return config
@@ -36,7 +48,7 @@ Vue.use(VueAxios, {
             const {
                 response,
                 message
-            } = error
+            } = error;
 
             if (response) { // backend error
                 showServerError(response)
@@ -49,4 +61,4 @@ Vue.use(VueAxios, {
             // return Promise.reject(error)
         }
     }
-})
+});

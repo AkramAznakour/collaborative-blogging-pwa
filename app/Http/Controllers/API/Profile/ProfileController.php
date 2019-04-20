@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Http\Controllers\API\Profile;
 
 use App\Http\Controllers\API\BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+
 //use Illuminate\Auth\Events\PasswordReset;
 //use App\Traits\Avatar;
 use App\Http\Requests\Profile\Current\SetPasswordRequest;
@@ -13,14 +15,13 @@ use App\Http\Resources\UserResource;
 
 class ProfileController extends BaseController
 {
-//    use Avatar;
 
     /**
      * Change password
      * @param SetPasswordRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function setPassword(SetPasswordRequest $request)
+    public function setPassword(Request $request)
     {
         $user = $request->user();
 
@@ -50,7 +51,7 @@ class ProfileController extends BaseController
      * @param SetUserDataRequest $request
      * @return UserResource
      */
-    public function setUserData(SetUserDataRequest $request)
+    public function setUserData(Request $request)
     {
         $user = auth()->user();
 
@@ -66,28 +67,50 @@ class ProfileController extends BaseController
         // 'timezone' => $request->timezone,
         // 'country' => $request->country
 
-        return new UserResource($user);
+        return $this->sendResponse([
+            'user' => new UserResource($user),
+            'message' => 'User data changed successfully!'
+        ]);
     }
 
     /**
      * Save avatar
-     * @param SaveAvatarRequest $request
+     * @param Request $request
      * @return UserResource
      */
-    public function setAvatar(SaveAvatarRequest $request) {
+    public function setAvatar(Request $request)
+    {
         $user = auth()->user();
         $cropInfo = json_decode($request->cropInfo, true);
         $file = $request->file('file');
 
-        $img = Image::make($file)->crop(
-            $cropInfo['width'],
-            $cropInfo['height'],
-            $cropInfo['x'],
-            $cropInfo['y']
+        $fields = collect(["avatar" => (String)$request->avatar])->keyBy(function ($value, $key) {
+            return snake_case($key);
+        })->all();
+
+        $user->fill($fields)->save();
+
+        $img_name = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
+
+         $request->file('avatar')->move(
+            base_path() . '/public/img/', $img_name
         );
-        $avatar = $this->setUserAvatar($user, $img);
 
 
-        return new UserResource($user);
+        $fields = collect(["avatar" =>$img_name])->keyBy(function ($value, $key) {
+            return snake_case($key);
+        })->all();
+        $user->fill($fields)->save();
+
+
+        return $this->sendResponse([
+            'user' => new UserResource($user),
+            'message' => 'User data changed successfully!'
+        ]);
+    }
+
+    public function setUserAvatar($user, $image)
+    {
+
     }
 }

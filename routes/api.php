@@ -19,16 +19,10 @@ Route::namespace('API')->group(function () {
     require base_path('routes/api/users.php');
 });
 
-Route::get('test', function () {
-    return [
-        'test' => 'test'
-    ];
-});
 
 Route::fallback(function() {
     return response()->json(['message' => 'Not Found!'], 404);
 });
-
 
 /*************Authentication *************/
 Route::post('register', 'Auth\AuthController@register');

@@ -1,4 +1,6 @@
 import Vue from 'vue'
+
+
 import App from '@/App.vue'
 import router from '@/router'
 import store from '@/store'
@@ -13,10 +15,14 @@ Vue.use(Highlight);
 
 Vue.use(mavonEditor)
 
-// style
-import 'jquery'
-import 'bootstrap'
+// 
 import 'bootstrap/dist/css/bootstrap.min.css'
+import "./assets/css/main.css";
+import "./assets/css/theme.css";
+global.jQuery = require('jquery');
+//import 'jquery/dist/jquery.js'
+import 'bootstrap'
+//import "./assets/js/theme.js";
 
 // Plugins
 import './plugins/vue-plugin-axios'

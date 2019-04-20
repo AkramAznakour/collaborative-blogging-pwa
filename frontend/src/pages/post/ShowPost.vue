@@ -1,67 +1,172 @@
 <template>
   <div>
-    <!--------------------------------------
-HEADER
-    --------------------------------------->
     <div class="container">
       <div class="jumbotron jumbotron-fluid mb-3 pl-0 pt-0 pb-0 bg-white position-relative">
         <div class="h-100 tofront">
-          <div class="row justify-content-between">
-            <div class="col-md-12 pt-6 pb-6 pr-6 align-self-center">
+          <div
+            v-bind:class="{ 'justify-content-between': page.image, 'justify-content-center': !page.image }"
+            class="row"
+          >
+            <div
+              v-bind:class="{ 'col-md-6 ': page.image, 'col-md-8': !page.image }"
+              class="pr-0 pr-md-4 pt-4 pb-4 align-self-center"
+            >
               <p class="text-uppercase font-weight-bold">
-                <a class="text-danger" href="./category.html">Stories</a>
+                <span class="catlist" v-for=" (category,index) in page.categories" :key="index">
+                  <a class="sscroll text-danger p-1" :href="category">{{ category }}</a>
+                  <span class="sep">,</span>
+                </span>
               </p>
-              <h1 class="display-4 secondfont mb-3 font-weight-bold">{{title}}</h1>
-              <p
-                class="mb-3"
-              >Analysts told CNBC that the currency could hit anywhere between $1.35-$1.40 if the deal gets passed through the U.K. parliament.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End Header -->
+              <h1 class="display-4 mb-4 article-headline">{{ page.title }}</h1>
+              <div class="d-flex align-items-center">
+                <img class="rounded-circle" :src=" author.avatar" :alt="author.name" width="70">
 
-    <!--------------------------------------
-MAIN
-    --------------------------------------->
-    <div class="container pt-4 pb-4">
-      <div class="row justify-content-center">
-        <div class="col-lg-2 pr-4 mb-4 col-md-12">
-          <div class="sticky-top text-center d-block">
-            <div class="d-flex align-items-center">
-              <img class="rounded-circle" src="http://localhost:8000/img/avatar2.jpg" width="70">
-              <div>
-                <small class="ml-2">
-                  {{author}}
-                  <span class="text-muted d-block">A few hours ago &middot; 5 min. read</span>
+                <small class="ml-3">
+                  {{ author.name }}
+                  <span>
+                    <a
+                      target="_blank"
+                      :href="author.twitter"
+                      class="btn btn-outline-success btn-sm btn-round ml-1"
+                    >Follow</a>
+                  </span>
+                  <span class="text-muted d-block mt-1">{{ page.date }} · 5min</span>
                 </small>
               </div>
             </div>
+
+            <div v-if="page.image " class="col-md-6 pr-0 align-self-center">
+              <img class="rounded" :src="page.image" :alt="page.title">
+            </div>
           </div>
-        </div>
-        <div class="col-md-12 col-lg-8">
-          <article class="article-post">
-            <div v-html="content" v-highlight></div>
-          </article>
         </div>
       </div>
     </div>
 
-    <!-- End Main -->
+    <div class="container-lg pt-4 pb-4">
+      <div class="row justify-content-center">
+        <!-- Share -->
+        <div class="col-lg-2 pr-4 mb-4 col-md-12">
+          <div class="sticky-top sticky-top-offset text-center">
+            <div class="text-muted">Share this</div>
+            <div class="share d-inline-block">
+              <!-- AddToAny BEGIN -->
+              <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+                <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+                <a class="a2a_button_facebook"></a>
+                <a class="a2a_button_twitter"></a>
+              </div>
+              <!-- AddToAny END -->
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 col-lg-8">
+          <!-- Article -->
+          <article class="article-post">{{ content }}</article>
+
+          <!-- Tags -->
+          <div class="mb-4">
+            <span class="taglist">
+              <a
+                v-for="(tag,index) in page.tags"
+                :key="index"
+                class="sscroll btn btn-light btn-sm font-weight-bold"
+                href="#"
+              >{{tag}}</a>
+            </span>
+          </div>
+
+          <!-- Author Box -->
+
+          <div class="row mt-5">
+            <div class="col-md-2 align-self-center">
+              <img class="rounded-circle" :src="author.avatar" :alt="author.name" width="90">
+            </div>
+            <div class="col-md-10">
+              <h5 class="font-weight-bold">
+                Written by {{ author.name }}
+                <span>
+                  <a
+                    target="_blank"
+                    :href="author.twitter"
+                    class="btn btn-outline-success btn-sm btn-round ml-2"
+                  >Follow</a>
+                </span>
+              </h5>
+              {{ author.bio }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Aletbar Prev/Next -->
+    <div class>
+      <div class="container">
+        <div class="row prevnextlinks small font-weight-bold">
+          <div v-if="page.previous.url" class="col-md-6 rightborder pl-0">
+            <a class="text-dark" :href="page.previous.url">
+              <img v-if="page.previous.image" height="30px" class="mr-1" :src="page.previous.image">
+              {{page.previous.title}}
+            </a>
+          </div>
+
+          <div v-if="page.next.url" class="col-md-6 text-right pr-0">
+            <a class="text-dark" :href="page.next.url">
+              {{page.next.title}}
+              <img
+                v-if="page.next.image"
+                height="30px"
+                class="ml-1"
+                :src="page.next.image"
+              >
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 export default {
   name: "ShowPost",
+  mounted() {
+    console.log("post page");
+  },
   data: function() {
     return {
-      id: this.$route.params.id,
-      title: "Vue Offline",
-      author: "Akram Aznakour",
+      author: {
+        name: "Akram Aznakour",
+        avatar: "http://localhost:8000/img/avatar1.jpg",
+        twitter: "",
+        bio:
+          "There are lots of powerful things you can do with the Markdown editor"
+      },
+      page: {
+        title:
+          "There are lots of powerful things you can do with the Markdown editor",
+        image: "http://localhost:8000/img/1.jpg",
+        categories: [
+          "categories1",
+          "categories2",
+          "categories3",
+          "categories4"
+        ],
+        tags: ["tag1", "tag2", "tag3", "tag4"],
+        previous: {
+          title: "There are lots of powerful things",
+          image: "http://localhost:8000/img/1.jpg",
+          url: "./"
+        },
+        next: {
+          title: "There are lots of powerful things",
+          image: "http://localhost:8000/img/1.jpg",
+          url: "./"
+        }
+      },
       content:
-        "# Vue Offline\r\n\r\nThis library allows you to enhance offline capabilities of your Vue.js application. It's especially useful when you're building offline-first Progressive Web Apps or just want to inform your users that they lost internet connection. \r\n\r\n**TL;DR** Adds `isOnline` `isOffline` data properties, `online`, `offline` events via global mixin and enables offline storage via `Vue.$offlineStorage` based on Local Storage\r\n\r\n- [Installation](#installation)\r\n- [Capabilities](#capabilities)\r\n    - [VueOfflineMixin](#vueofflinemixin)\r\n    - [VueOfflineStorage](#vueofflinestorage)\r\n\r\nInitially made for [Vue Storefront](https://github.com/DivanteLtd/vue-storefront)\r\n\r\n## Installation\r\nTo install this package as a plugin just type:\r\n````\r\nnpm install vue-offline --save\r\n````\r\n\r\nand add it into your application with\r\n````js\r\nimport VueOffline from 'vue-offline'\r\n\r\nVue.use(VueOffline)\r\n````\r\n\r\n## Capabilities\r\nThis plugin contains two features:\r\n\r\n### VueOfflineMixin\r\nGlobal mixin that'll add following properties to every component in your application:\r\n\r\n- `isOnline` & `isOffline` data properties\r\n````html\r\n<template>\r\n    <p v-if=\"isOnline\">This part will be visible only if user is online</p>\r\n    <p v-if=\"isOffline\">This part will be visible only if user is offline</p>\r\n</template>\r\n````\r\n````js\r\nexport default {\r\n    name: 'MyComponent',\r\n    computed: {\r\n        networkStatus () {\r\n            return this.isOnline ? 'My network is fine' : 'I am offline'\r\n        }\r\n    }\r\n}\r\n````\r\n- `online` and `offline` events in every component\r\n````js\r\nexport default {\r\n    name: 'MyComponent',\r\n    mounted () {\r\n        this.$on('offline' () => {\r\n            alert('You are offline! The website will not work')\r\n        })\r\n    }\r\n}\r\n````\r\n\r\n### Additional configuration\r\n\r\nBy default `VueOfflineMixin` is injected into every component which may be a cause of potential performance problems. You can disable this behavior by setting plugin option `mixin` to `false`. \r\n````js\r\nVue.use(VueOffline, {\r\n    mixin: false\r\n})\r\n````\r\n\r\nYou can still make use of `VueOfflineMixin` by injecting it directly into your components:\r\n````js \r\nimport { VueOfflineMixin } from 'vue-offline'\r\n\r\nexport default {\r\n    name: 'MyComponent',\r\n    mixins: [VueofflineMixin],\r\n    computed: {\r\n        networkStatus () {\r\n            return this.isOnline ? 'My network is fine' : 'I am offline'\r\n        }\r\n    },\r\n    mounted () {\r\n        this.$on('offline' () => {\r\n            alert('You are offline! The website will not work')\r\n        })\r\n    }\r\n}\r\n````\r\n### VueOfflineStorage \r\n Offline storage that uses [local storage](https://developer.mozilla.org/pl/docs/Web/API/Window/localStorage) to persist data for offline usage and caching. It's a perfect choice for offline-first PWA. You can use it as a fallback for failed network requests or a local cache. \r\n\r\nThe storage object has following properties: \r\n- `set(key, value)` - puts (or updates if already exists) `value` into storage under key `key`.\r\n- `get(key)` - returns value stored under key `key`\r\n- `keys` - return array of keys existing in your offline storage\r\n\r\nTo use this storage inside your app you can either\r\n-  use `this.$offlineStorage` from Vue instance property in your components:\r\n````js\r\nexport default {\r\n    methods: {\r\n        getUserData () {\r\n            if (this.isOnline) {\r\n                // make network request that returns 'userData' object\r\n                this.appData = userData\r\n                this.$offlineStorage.set('user', userData)\r\n            } else {\r\n                this.appData = this.$offlineStorage.get('user')\r\n            }\r\n        }\r\n    }\r\n}\r\n````\r\n- import the `VueOfflineStorage` instance if you want to use it somewhere else (e.g. Vuex store)\r\n````js\r\nimport { VueOfflineStorage } from 'vue-offline'\r\n\r\nconst cachedData = VueOfflineStorage.get('cached-data')\r\n\r\n````\r\n### Additional configuration\r\n\r\nBy default `VueofflineStorage` reference is included into every Vue component. You can disable this behavior by setting plugin option `storage` to `false`. \r\n````js\r\nVue.use(VueOffline, {\r\n    storage: false\r\n})\r\n````\r\n\r\nYou can still make use of `VueOfflineStorage` by importing it directly into your components:\r\n````js \r\nimport { VueOfflineStorage } from 'vue-offline'\r\n\r\nexport default {\r\n    name: 'MyComponent',\r\n    methods: {\r\n        getUserData () {\r\n            if (this.isOnline) {\r\n                // make network request that returns 'userData' object\r\n                this.appData = userData\r\n                VueOfflineStorage.set('user', userData)\r\n            } else {\r\n                this.appData = VueOfflineStorage.get('user')\r\n            }\r\n        }\r\n    }\r\n}\r\n````\r\n",
-      imageSrc: process.env.VUE_APP_BACKEND_IMG_PATH + "intro.jpg"
+        'There are lots of powerful things you can do with the Markdown editor. If you\'ve gotten pretty comfortable with writing in Markdown, then you may enjoy some more advanced tips about the types of things you can do with Markdown!\r\n\r\nAs with the last post about the editor, you\'ll want to be actually editing this post as you read it so that you can see all the Markdown code we\'re using.\r\n\r\n\r\n## Special formatting\r\n\r\nAs well as bold and italics, you can also use some other special formatting in Markdown when the need arises, for example:\r\n\r\n+ ~~strike through~~\r\n+ ==highlight==\r\n+ \\*escaped characters\\*\r\n\r\n\r\n## Writing code blocks\r\n\r\nThere are two types of code elements which can be inserted in Markdown, the first is inline, and the other is block. Inline code is formatted by wrapping any word or words in back-ticks, `like this`. Larger snippets of code can be displayed across multiple lines using triple back ticks:\r\n\r\n```\r\n.my-link {\r\n    text-decoration: underline;\r\n}\r\n```\r\n\r\nIf you want to get really fancy, you can even add syntax highlighting using Rouge.\r\n\r\n\r\n![walking]({{ site.baseurl }}/assets/images/8.jpg)\r\n\r\n## Reference lists\r\n\r\nThe quick brown jumped over the lazy.\r\n\r\nAnother way to insert links in markdown is using reference lists. You might want to use this style of linking to cite reference material in a Wikipedia-style. All of the links are listed at the end of the document, so you can maintain full separation between content and its source or reference.\r\n\r\n## Full HTML\r\n\r\nPerhaps the best part of Markdown is that you\'re never limited to just Markdown. You can write HTML directly in the Markdown editor and it will just work as HTML usually does. No limits! Here\'s a standard YouTube embed code as an example:\r\n\r\n<p><iframe style="width:100%;" height="315" src="https://www.youtube.com/embed/Cniqsc9QfDo?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe></p>'
     };
   }
 };

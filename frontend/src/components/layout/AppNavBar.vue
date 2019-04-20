@@ -19,7 +19,7 @@
       <div class="navbar-collapse collapse" id="navbarColor02" style>
         <ul class="navbar-nav mr-auto d-flex align-items-center">
           <li class="nav-item" v-for="item in navItems" v-bind:key="item">
-            <a class="nav-link" href="#" @click.prevent="$router.push({ name: 'article' })">{{item}}</a>
+            <a class="nav-link" href="#" @click.prevent="$router.push({ name: 'post' })">{{item}}</a>
           </li>
         </ul>
 
@@ -42,7 +42,7 @@
             </li>
             <li class="nav-item pr-3">
               <a href @click.prevent="$router.push({ name: 'profile' })">
-                <img class="rounded-circle shadow" :src="avatarImageSrc" width="40">
+                <img class="rounded-circle shadow" :src="avatarImageSrc" width="40" height="40">
               </a>
             </li>
 

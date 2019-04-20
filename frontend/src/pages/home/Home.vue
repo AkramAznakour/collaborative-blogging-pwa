@@ -1,93 +1,164 @@
 <template>
-  <div class="row">
-    <!------- HEADER    ------->
-    <div class="container">
-      <LgArticleCard
-        v-for="i in [1]"
-        :key="i"
-        :id="i"
-        :title="article.title"
-        :date="article.date"
-        :author="article.author"
-        :description="article.description"
-        :imgFileName="article.imgSource"
-      />
-    </div>
-    <!------- MAIN -------->
-    <div class="container pt-4 pb-4">
-      <div class="row">
-        <div class="col-lg-6">
-          <MdArticleCard
-            v-for="i in [1]"
-            :key="i"
-            :id="i"
-            :title="article.title"
-            :date="article.date"
-            :author="article.author"
-            :description="article.description"
-            :imgFileName="article.imgSource"
-          />
-        </div>
-        <div class="col-lg-6">
-          <div class="flex-md-row mb-4 box-shadow h-xl-300">
-            <SmArticleCard
-              v-for="i in [1,2,3,4,5]"
-              :key="i"
-              :id="i"
-              :title="article.title"
-              :date="article.date"
-              :author="article.author"
-              :imgFileName="article.imgSource"
-            />
+  <div class="container">
+    <!-- Begin post excerpts, let's highlight the first 4 posts on top -->
+    <div class="row remove-site-content-margin">
+      <!-- latest post -->
+
+      <div class="col-md-6">
+        <div class="card border-0 mb-4 box-shadow">
+          <a href="#">
+            <div
+              :style="{'background-image': 'url(' +latest_post.image+ ')'}"
+              style="  background-size: cover; background-repeat: no-repeat ; height : 200px;"
+            ></div>
+          </a>
+          <div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
+            <h2 class="h4 font-weight-bold">
+              <a class="text-dark" href="#">{{ latest_post.title }}</a>
+            </h2>
+            <p class="excerpt">{{ latest_post.excerpt }}</p>
+            <div>
+              <small class="d-block text-muted">
+                In
+                <span
+                  class="catlist"
+                  v-for="(category,index) in latest_post.categories"
+                  :key="index"
+                >
+                  <a class="text-capitalize text-muted smoothscroll p-1" href="#">{{ category }}</a>
+                  <span class="sep">,</span>
+                </span>
+              </small>
+              <small class="text-muted">{{ latest_post.date }}</small>
+            </div>
           </div>
         </div>
+      </div>
+
+      <div class="col-md-6">
+        <!-- second latest posts -->
+        <div
+          class="mb-3 d-flex align-items-center"
+          v-for="(second_post,index) in second_posts"
+          :key="index"
+        >
+          <div v-if="second_post.image" class="col-md-4">
+            <a href="#">
+              <img class="w-100" :src="second_post.image" :alt="second_post.title">
+            </a>
+          </div>
+
+          <div>
+            <h2 class="mb-2 h6 font-weight-bold">
+              <a class="text-dark" href="#">{{ second_post.title }}</a>
+            </h2>
+            <small class="d-block text-muted">
+              In
+              <span class="catlist" v-for="category in second_post.categories" :key="category">
+                <a class="text-capitalize text-muted smoothscroll p-1" href="#">{{ category }}</a>
+                <span class="sep">,</span>
+              </span>
+            </small>
+            <small class="text-muted">{{ second_post.date }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sticky - add sticky tag to the post you want to highlight here - tags: [sticky] -->
+    <div v-for="(post, index) in site.posts" :key="index">
+      <div
+        v-if="post.tags.includes('sticky')"
+        class="jumbotron jumbotron-fluid jumbotron-home pt-0 pb-0 mb-2rem bg-lightblue position-relative"
+      >
+        <div class="pl-4 pr-0 h-100 tofront">
+          <div class="row justify-content-between">
+            <div class="col-md-6 pt-6 pb-6 pr-lg-4 align-self-center">
+              <h1 class="mb-3">{{post.title}}</h1>
+              <p class="mb-3 lead">{{ post.excerpt }}</p>
+              <a href="#" class="btn btn-dark">Read More</a>
+            </div>
+            <div
+              :style="{'background-image': 'url(' +post.image + ')'}"
+              style="background-size:cover"
+              class="col-md-6 d-none d-md-block pr-0"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--endif page url is / -->
+
+    <!-- Now the rest of the posts with the usual loop but with an offset:4 on the first page so we can skeep the first 4 posts displayed above -->
+
+    <div class="row mt-3">
+      <div class="col-md-8 main-loop">
+        <h4 class="font-weight-bold spanborder">
+          <span>All Stories</span>
+        </h4>
+        <MainLoopCard v-for="i in [1,2,3,5]" :key="i"/>
+      </div>
+
+      <div class="col-md-4">
+        <SidebarFeatured/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
-
-import Auth from "@/components/auth/Auth.vue";
-import SmArticleCard from "@/components/articleCards/SmArticleCard.vue";
-import MdArticleCard from "@/components/articleCards/MdArticleCard.vue";
-import LgArticleCard from "@/components/articleCards/LgArticleCard.vue";
+//import { mapState, mapGetters } from "vuex";
+import SidebarFeatured from "@/components/layout/sidebar-featured.vue";
+import MainLoopCard from "@/components/layout/main-loop-card.vue";
 
 export default {
   name: "Home",
-  components: { Auth, SmArticleCard, MdArticleCard, LgArticleCard },
+  components: { SidebarFeatured, MainLoopCard },
   data: () => ({
-    users: [],
-    loading: false,
-    article: {
-      id: "1",
-      title: "Nasa's IceSat space laser makes height maps of Earth",
-      date: "Dec 12",
-      imgSource: "blog4.jpg",
-      description:
-        "Researchers have found an effective target in the brain for electrical stimulation to improve mood in people suffering from depression.",
-      author: "Jake Bittle in LOVE/HATE"
+    latest_post: {
+      title: "There are lots of powerful things you can",
+      excerpt:
+        "There are lots of powerful things you can do with the Markdown editor. If you've gotten pretty comfortable with writing in Markdown, then you may ",
+      image: "http://localhost:8000/img/1.jpg",
+      excerpt:
+        "There are lots of powerful things you can do with the Markdown editor. If you've gotten pretty comfortable with writing in Markdown, then you may ",
+
+      categories: ["categories1", "categories2"],
+      date: "Feb 04, 2019"
+    },
+    second_posts: [
+      {
+        title: "There are lots of powerful things you can",
+        image: "http://localhost:8000/img/1.jpg",
+        categories: ["categories1", "categories2"],
+        date: "Feb 04, 2019"
+      },
+      {
+        title: "There are lots of powerful things you can",
+        image: "http://localhost:8000/img/1.jpg",
+        categories: ["categories1", "categories2"],
+        date: "Feb 04, 2019"
+      },
+      {
+        title: "There are lots of powerful things you can",
+        image: "http://localhost:8000/img/1.jpg",
+        categories: ["categories1", "categories2"],
+        date: "Feb 04, 2019"
+      }
+    ],
+    site: {
+      posts: [
+        {
+          title: "There are lots of powerful things you can",
+          image: "http://localhost:8000/img/1.jpg",
+          excerpt:
+            "There are lots of powerful things you can do with the Markdown editor. If you've gotten pretty comfortable with writing in Markdown, then you may ",
+          date: "Feb 04, 2019",
+          categories: ["categories1", "categories2"],
+          tags: ["sticky"]
+        }
+      ]
     }
-  }),
-  computed: {
-    ...mapState("auth", ["user"]),
-    ...mapGetters("auth", ["loggedIn"])
-  },
-  watch: {
-    loggedIn(val) {
-      if (val) this.fetchUsers();
-    }
-  },
-  mounted() {
-    if (this.loggedIn) this.fetchUsers();
-  },
-  methods: {
-    async fetchUsers() {
-      this.loading = true;
-      this.users = await this.$get("users");
-      this.loading = false;
-    }
-  }
+  })
 };
 </script>

@@ -97,10 +97,6 @@ return [
     | Some people may want this behaviour for e.g. a mobile app.
     | This is not particularly recommended, so make sure you have appropriate
     | systems in place to revoke the token if necessary.
-<<<<<<< HEAD
-    | Notice: If you set this to null you should remove 'exp' element from 'required_claims' list.
-=======
->>>>>>> a01cb6023bb4bc31977ed4e2d572324e34603dff
     |
     */
 
@@ -123,11 +119,7 @@ return [
     |
     */
 
-<<<<<<< HEAD
-    'refresh_ttl' => env('JWT_REFRESH_TTL', 20160),
-=======
     'refresh_ttl' => env('JWT_REFRESH_TTL', 10080), // 1 week, 20160 - 2 weeks
->>>>>>> a01cb6023bb4bc31977ed4e2d572324e34603dff
 
     /*
     |--------------------------------------------------------------------------

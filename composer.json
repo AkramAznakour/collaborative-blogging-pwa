@@ -10,11 +10,7 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
-<<<<<<< HEAD
         "tymon/jwt-auth": "dev-develop"
-=======
-        "tymon/jwt-auth": "^1.0"
->>>>>>> a01cb6023bb4bc31977ed4e2d572324e34603dff
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

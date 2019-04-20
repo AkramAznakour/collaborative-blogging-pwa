@@ -1,5 +1,5 @@
 export default [{
-    path: '/',
+    path: '',
     name: "home",
     component: () => import('@/pages/home/Home.vue'),
     meta: {
