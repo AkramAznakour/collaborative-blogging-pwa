@@ -1,18 +1,12 @@
 <template>
   <div>
-    <mavon-editor
-      :toolbars="markdownOption"
-      v-model="handbook"
-      ref="md"
-      :ishljs="true"
-      language="en"
-      @imgAdd="$imgAdd"
-      @imgDel="$imgDel"
-    />
+    <mavon-editor v-model="handbook" ref="md" :ishljs="true" language="en" @save="save"/>
   </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "CreatePost",
   data: function() {
@@ -21,21 +15,20 @@ export default {
     };
   },
   methods: {
-    // bind @imgAdd event
-    $imgAdd(pos, $file) {
-      // step 1. upload image to server.
-      var formdata = new FormData();
-      formdata.append("image", $file);
-      axios({
-        url: "server url",
-        method: "post",
-        data: formdata,
-        headers: { "Content-Type": "multipart/form-data" }
-      }).then(url => {
-        // step 2. replace url ![...](0) -> ![...](url)
-        $vm.$img2Url(pos, url);
-      });
-    }
+    async save(value, render) {
+      console.log("value :", value);
+      console.log("render :", render);
+      let form = {
+        title: " akram aznakour title",
+        content: value,
+        image: "1.jpg",
+        user_id: this.$auth.user.id,
+        topic_id: 1
+      };
+      await this.$actionWithLoading(this.addPost, "loading", form);
+    },
+
+    ...mapActions("posts", ["addPost"])
   }
 };
 </script>

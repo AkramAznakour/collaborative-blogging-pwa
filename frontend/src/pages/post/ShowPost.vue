@@ -1,23 +1,23 @@
 <template>
-  <div>
+  <div v-if="post.id">
     <div class="container">
       <div class="jumbotron jumbotron-fluid mb-3 pl-0 pt-0 pb-0 bg-white position-relative">
         <div class="h-100 tofront">
           <div
-            v-bind:class="{ 'justify-content-between': page.image, 'justify-content-center': !page.image }"
+            v-bind:class="{ 'justify-content-between': post.image, 'justify-content-center': !post.image }"
             class="row"
           >
             <div
-              v-bind:class="{ 'col-md-6 ': page.image, 'col-md-8': !page.image }"
+              v-bind:class="{ 'col-md-6 ': post.image, 'col-md-8': !post.image }"
               class="pr-0 pr-md-4 pt-4 pb-4 align-self-center"
             >
               <p class="text-uppercase font-weight-bold">
-                <span class="catlist" v-for=" (category,index) in page.categories" :key="index">
+                <span class="catlist" v-for=" (category,index) in post.categories" :key="index">
                   <a class="sscroll text-danger p-1" :href="category">{{ category }}</a>
                   <span class="sep">,</span>
                 </span>
               </p>
-              <h1 class="display-4 mb-4 article-headline">{{ page.title }}</h1>
+              <h1 class="display-4 mb-4 article-headline">{{ post.title }}</h1>
               <div class="d-flex align-items-center">
                 <img class="rounded-circle" :src=" author.avatar" :alt="author.name" width="70">
 
@@ -30,13 +30,13 @@
                       class="btn btn-outline-success btn-sm btn-round ml-1"
                     >Follow</a>
                   </span>
-                  <span class="text-muted d-block mt-1">{{ page.date }} · 5min</span>
+                  <span class="text-muted d-block mt-1">{{ post.date }} · {{post.readingTime}}</span>
                 </small>
               </div>
             </div>
 
-            <div v-if="page.image " class="col-md-6 pr-0 align-self-center">
-              <img class="rounded" :src="page.image" :alt="page.title">
+            <div v-if="post.image " class="col-md-6 pr-0 align-self-center">
+              <img class="rounded" :src="post.image| imageWatcher" :alt="post.title">
             </div>
           </div>
         </div>
@@ -63,13 +63,15 @@
 
         <div class="col-md-12 col-lg-8">
           <!-- Article -->
-          <article class="article-post">{{ content }}</article>
+          <article class="article-post">
+            <vue-markdown>{{ post.content }}</vue-markdown>
+          </article>
 
           <!-- Tags -->
           <div class="mb-4">
             <span class="taglist">
               <a
-                v-for="(tag,index) in page.tags"
+                v-for="(tag,index) in post.tags"
                 :key="index"
                 class="sscroll btn btn-light btn-sm font-weight-bold"
                 href="#"
@@ -105,21 +107,21 @@
     <div class>
       <div class="container">
         <div class="row prevnextlinks small font-weight-bold">
-          <div v-if="page.previous.url" class="col-md-6 rightborder pl-0">
-            <a class="text-dark" :href="page.previous.url">
-              <img v-if="page.previous.image" height="30px" class="mr-1" :src="page.previous.image">
-              {{page.previous.title}}
+          <div v-if="post.previous.url" class="col-md-6 rightborder pl-0">
+            <a class="text-dark" :href="post.previous.url">
+              <img v-if="post.previous.image" height="30px" class="mr-1" :src="post.previous.image">
+              {{post.previous.title}}
             </a>
           </div>
 
-          <div v-if="page.next.url" class="col-md-6 text-right pr-0">
-            <a class="text-dark" :href="page.next.url">
-              {{page.next.title}}
+          <div v-if="post.next.url" class="col-md-6 text-right pr-0">
+            <a class="text-dark" :href="post.next.url">
+              {{post.next.title}}
               <img
-                v-if="page.next.image"
+                v-if="post.next.image"
                 height="30px"
                 class="ml-1"
-                :src="page.next.image"
+                :src="post.next.image"
               >
             </a>
           </div>
@@ -129,8 +131,11 @@
   </div>
 </template>
 <script>
+import VueMarkdown from "vue-markdown";
+
 export default {
   name: "ShowPost",
+  components: { VueMarkdown },
   mounted() {
     console.log("post page");
   },
@@ -143,10 +148,14 @@ export default {
         bio:
           "There are lots of powerful things you can do with the Markdown editor"
       },
-      page: {
+      post: {
+        id: "",
         title:
           "There are lots of powerful things you can do with the Markdown editor",
         image: "http://localhost:8000/img/1.jpg",
+        date: "",
+        content:
+          'There are lots of powerful things you can do with the Markdown editor. If you\'ve gotten pretty comfortable with writing in Markdown, then you may enjoy some more advanced tips about the types of things you can do with Markdown!\r\n\r\nAs with the last post about the editor, you\'ll want to be actually editing this post as you read it so that you can see all the Markdown code we\'re using.\r\n\r\n\r\n## Special formatting\r\n\r\nAs well as bold and italics, you can also use some other special formatting in Markdown when the need arises, for example:\r\n\r\n+ ~~strike through~~\r\n+ ==highlight==\r\n+ \\*escaped characters\\*\r\n\r\n\r\n## Writing code blocks\r\n\r\nThere are two types of code elements which can be inserted in Markdown, the first is inline, and the other is block. Inline code is formatted by wrapping any word or words in back-ticks, `like this`. Larger snippets of code can be displayed across multiple lines using triple back ticks:\r\n\r\n```\r\n.my-link {\r\n    text-decoration: underline;\r\n}\r\n```\r\n\r\nIf you want to get really fancy, you can even add syntax highlighting using Rouge.\r\n\r\n\r\n![walking]({{ site.baseurl }}/assets/images/8.jpg)\r\n\r\n## Reference lists\r\n\r\nThe quick brown jumped over the lazy.\r\n\r\nAnother way to insert links in markdown is using reference lists. You might want to use this style of linking to cite reference material in a Wikipedia-style. All of the links are listed at the end of the document, so you can maintain full separation between content and its source or reference.\r\n\r\n## Full HTML\r\n\r\nPerhaps the best part of Markdown is that you\'re never limited to just Markdown. You can write HTML directly in the Markdown editor and it will just work as HTML usually does. No limits! Here\'s a standard YouTube embed code as an example:\r\n\r\n<p><iframe style="width:100%;" height="315" src="https://www.youtube.com/embed/Cniqsc9QfDo?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe></p>',
         categories: [
           "categories1",
           "categories2",
@@ -164,10 +173,31 @@ export default {
           image: "http://localhost:8000/img/1.jpg",
           url: "./"
         }
-      },
-      content:
-        'There are lots of powerful things you can do with the Markdown editor. If you\'ve gotten pretty comfortable with writing in Markdown, then you may enjoy some more advanced tips about the types of things you can do with Markdown!\r\n\r\nAs with the last post about the editor, you\'ll want to be actually editing this post as you read it so that you can see all the Markdown code we\'re using.\r\n\r\n\r\n## Special formatting\r\n\r\nAs well as bold and italics, you can also use some other special formatting in Markdown when the need arises, for example:\r\n\r\n+ ~~strike through~~\r\n+ ==highlight==\r\n+ \\*escaped characters\\*\r\n\r\n\r\n## Writing code blocks\r\n\r\nThere are two types of code elements which can be inserted in Markdown, the first is inline, and the other is block. Inline code is formatted by wrapping any word or words in back-ticks, `like this`. Larger snippets of code can be displayed across multiple lines using triple back ticks:\r\n\r\n```\r\n.my-link {\r\n    text-decoration: underline;\r\n}\r\n```\r\n\r\nIf you want to get really fancy, you can even add syntax highlighting using Rouge.\r\n\r\n\r\n![walking]({{ site.baseurl }}/assets/images/8.jpg)\r\n\r\n## Reference lists\r\n\r\nThe quick brown jumped over the lazy.\r\n\r\nAnother way to insert links in markdown is using reference lists. You might want to use this style of linking to cite reference material in a Wikipedia-style. All of the links are listed at the end of the document, so you can maintain full separation between content and its source or reference.\r\n\r\n## Full HTML\r\n\r\nPerhaps the best part of Markdown is that you\'re never limited to just Markdown. You can write HTML directly in the Markdown editor and it will just work as HTML usually does. No limits! Here\'s a standard YouTube embed code as an example:\r\n\r\n<p><iframe style="width:100%;" height="315" src="https://www.youtube.com/embed/Cniqsc9QfDo?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe></p>'
+      }
     };
+  },
+  methods: {
+    async fetchPost() {
+      let { id, title, content, image, timestamps } = await this.$get(
+        "posts/" + this.$route.params.id
+      );
+      this.post.id = id;
+      this.post.title = title;
+      this.post.content = content ;
+      this.post.date = timestamps;
+      this.post.image = image;
+    }
+  },
+  mounted() {
+    this.fetchPost();
+  },
+  updated() {
+    this.fetchPost();
+  },
+  filters: {
+    imageWatcher: function(imgName) {
+      return process.env.VUE_APP_BACKEND_IMG_PATH + imgName;
+    }
   }
 };
 </script>

@@ -14,5 +14,13 @@ export default [{
             auth: true
         },
     },
+    {
+        path: '/search-user/:name',
+        name: 'search-user',
+        component: () => import('@/pages/profile/SearchUser.vue'),
+        meta: {
+            auth: true
+        },
+    },
 
 ]

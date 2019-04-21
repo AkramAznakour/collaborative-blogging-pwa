@@ -6,6 +6,7 @@ import {
 } from '@/tools/helpers'
 import authModule from './modules/auth/'
 import currentUserProfile from './modules/profile/currentUser'
+import postsModule from './modules/posts/'
 
 Vue.use(Vuex);
 
@@ -19,7 +20,8 @@ export default new Vuex.Store({
     ],
     modules: {
         auth: authModule,
-        profile: currentUserProfile
+        profile: currentUserProfile,
+        posts: postsModule,
     },
     state: {
 

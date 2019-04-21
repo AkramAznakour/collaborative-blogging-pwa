@@ -8,7 +8,7 @@
         @click.prevent="$router.push({ name: menuItem.route})"
       >
         {{menuItem.title}}
-        <i v-if="menuItem.icon" :class="icon" class="fa text-danger"></i>
+        <i v-if="menuItem.icon" :class="menuItem.icon" class="fa text-danger"></i>
       </a>
     </li>
   </div>

@@ -10,7 +10,7 @@ import {
     showServerError
 } from '@/tools/validator'
 
-const baseApiURL = process.env.VUE_APP_BACKEND + '/api/';// 'http://localhost:8000/api/'
+const baseApiURL = process.env.VUE_APP_BACKEND + '/api/'; // 'http://localhost:8000/api/'
 
 Vue.use(VueAxios, {
     axios,
@@ -35,7 +35,7 @@ Vue.use(VueAxios, {
                     console.log("it is an image");
                     config.headers = {
                         // so laravel will understand that this is ajax $request->ajax()
-                         'Content-Type': 'multipart/form-data',
+                        'Content-Type': 'multipart/form-data',
                         'Authorization': `Bearer ${token}`
                     };
 
@@ -52,9 +52,12 @@ Vue.use(VueAxios, {
 
             if (response) { // backend error
                 showServerError(response)
-
+                console.log("response message : ", message)
+                vp.$notify.error(message)
                 // if 401
             } else if (message) { // network error
+                console.log("error message : ", message)
+
                 vp.$notify.error(message)
             }
 

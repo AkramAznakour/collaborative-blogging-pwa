@@ -17,6 +17,7 @@ Route::namespace('API')->group(function () {
     require base_path('routes/api/auth.php');
     require base_path('routes/api/profile.php');
     require base_path('routes/api/users.php');
+    require base_path('routes/api/posts.php');
 });
 
 
@@ -30,4 +31,4 @@ Route::post('login', 'Auth\AuthController@login');
 Route::get('user', 'Auth\AuthController@index');
 
 /**************Posts **************/
-Route::post('post/store', 'PostController@store');
+//Route::post('post/store', 'PostController@store');

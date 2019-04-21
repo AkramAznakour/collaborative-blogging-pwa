@@ -12,7 +12,7 @@ class User extends AuthenticatableForUser implements MustVerifyEmail
     use Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password','bio','avatar'
+        'name', 'email', 'password', 'bio', 'avatar'
     ];
 
     protected $hidden = [
@@ -51,5 +51,16 @@ class User extends AuthenticatableForUser implements MustVerifyEmail
     public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmail);
+    }
+
+
+    public function posts()
+    {
+        return $this->hasMany('App\Post','user_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
     }
 }

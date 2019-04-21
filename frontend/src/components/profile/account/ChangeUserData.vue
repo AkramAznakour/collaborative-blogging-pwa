@@ -30,7 +30,7 @@
         >{{ errors.first('email') }}</div>
       </div>
       <div class="form-group">
-        <label for="profileInputBio">email:</label>
+        <label for="profileInputBio">Bio :</label>
         <textarea
           id="profileInputBio"
           v-model="form.bio"
@@ -53,7 +53,7 @@
         @click.prevent="submit"
       >
         <span v-if="loading">Loading...</span>
-        <span v-else>Change name</span>
+        <span v-else>Change infos</span>
       </button>
     </form>
   </div>

@@ -41,7 +41,6 @@
 
 <script>
 import MainLoopCard from "@/components/layout/main-loop-card.vue";
-import { vp } from "@/tools/helpers";
 export default {
   name: "Profile",
   components: { MainLoopCard },
@@ -60,14 +59,14 @@ export default {
   methods: {
     async fetchUserData() {
       let user = await this.$get("users/" + this.$route.params.id);
-      console.log("users ", user);
+      let posts = await this.$get("user-posts");
+      console.log(posts);
+
       this.profile = user;
+      this.profile.posts = posts;
     }
   },
   mounted() {
-    this.fetchUserData();
-  },
-  updated() {
     this.fetchUserData();
   },
   filters: {

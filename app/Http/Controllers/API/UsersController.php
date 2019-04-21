@@ -12,32 +12,39 @@ class UsersController extends BaseController
             ->get();
     }
 
-    public function show($group)
+    public function show($user_id)
     {
-        return $this->getUser($group);
+        return $this->getUser($user_id);
     }
 
     public function store()
     {
-        $group = User::create(request()->all());
+        $user_id = User::create(request()->all());
 
-        return $this->getUser($group->id);
+        return $this->getUser($user_id->id);
     }
 
-    public function update($group)
+    public function update($user_id)
     {
-        User::whereId($group)->update(request()->all());
+        User::whereId($user_id)->update(request()->all());
 
-        return $this->getUser($group);
+        return $this->getUser($user_id);
     }
 
-    public function destroy($group)
+    public function destroy($user_id)
     {
-        User::destroy($group);
+        User::destroy($user_id);
     }
 
-    protected function getUser($group)
+    public function getUser($user_id)
     {
-        return User::whereId($group)->first();
+         return User::whereId($user_id)->first();
     }
+
+    public function searchUser($name)
+    {
+        return User::where('name','like','%'.$name.'%')->get();
+    }
+
+
 }

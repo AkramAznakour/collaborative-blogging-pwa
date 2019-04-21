@@ -2,11 +2,12 @@
 
 Route::middleware(['auth:api'])->group(function () {
     Route::apiResources([
-        'users' => 'UsersController',
+        'posts' => 'PostsController',
     ]);
 
     Route::get(
-        'search-user/{name}', 'UsersController@searchUser'
+        'user-posts', 'PostsController@getUserPosts'
     );
+
 });
 

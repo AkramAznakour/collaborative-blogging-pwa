@@ -18,6 +18,7 @@
         "register-service-worker": "^1.6.2",
         "vee-validate": "^2.2.2",
         "vue": "^2.5.17",
+        "vue-markdown": "^2.2.4",
         "vue-markdown-highlight": "^1.0.5",
         "vue-notifications": "^0.9.0",
         "vue-plugin-axios": "^1.0.8",
@@ -29,7 +30,7 @@
     "devDependencies": {
         "@babel/plugin-syntax-dynamic-import": "^7.0.0",
         "@vue/cli-plugin-babel": "^3.5.5",
-        "@vue/cli-service": "^3.5.3",
+        "@vue/cli-service": "^3.6.0",
         "@vue/eslint-config-standard": "^3.0.0",
         "babel-core": "7.0.0-bridge.0",
         "node-sass": "^4.11.0",
