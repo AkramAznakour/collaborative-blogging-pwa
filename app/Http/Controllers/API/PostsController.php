@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Resources\PostExcerptResource;
 use App\Http\Resources\PostResource;
+use App\Http\Resources\UserResource;
 use App\Post;
 use App\Topic;
 
@@ -10,18 +12,15 @@ class PostsController extends BaseController
 {
     public function index()
     {
-        return Post::orderBy('id', 'desc')->get();
+        return Post::orderBy('created_at', 'desc')->random(10);
     }
 
     public function show($post_id)
     {
-
-        $post =  Post::find($post_id) ;
-
-
-        return $post;
+        $post = Post::find($post_id);
 
         return $this->sendResponse([
+            'author' => new UserResource($post->user),
             'post' => new PostResource($post),
         ]);
     }
@@ -32,7 +31,7 @@ class PostsController extends BaseController
 
         $post = new Post();
 
-        if (request()->file('image')){
+        if (request()->file('image')) {
             $img_name = time() . '.' . request()->file('image')->getClientOriginalExtension();
 
             request()->file('image')->move(
@@ -42,9 +41,9 @@ class PostsController extends BaseController
             $post->image = $img_name;
         }
 
-        $topic = Topic::where('name','=',request()->input("topic"))->first();
+        $topic = Topic::where('name', '=', request()->input("topic"))->first();
 
-        if (!$topic){
+        if (!$topic) {
             $topic = new Topic();
             $topic->name = request()->input("topic");
             $topic->save();
@@ -59,15 +58,24 @@ class PostsController extends BaseController
 
         return
             [
-                "post_id"=>$post->id,
-                "message"=>"post was successfully created"
+                "post_id" => $post->id,
+                "message" => "post was successfully created"
             ];
     }
 
 
-    protected function getUserPosts()
+    protected function getUserPosts($user_id)
     {
-        $user = auth()->user()->id;
-        return Post::where('user_id',"=",auth()->user()->id)->get();
+        $posts = Post::where('user_id', "=", $user_id)->get();
+
+        $postsResources = $posts->map(function ($post) {
+            return new PostExcerptResource($post);
+        });
+
+        return
+            [
+                "posts" => $postsResources,
+                "message" => "post was successfully created"
+            ];
     }
 }

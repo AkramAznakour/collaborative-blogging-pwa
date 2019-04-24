@@ -47,7 +47,7 @@
             <div class="form-group">
               <label for="content">Content :</label>
               <mavon-editor
-                v-model="form.content"
+                v-model="form.contentPreRender"
                 ref="md"
                 :ishljs="true"
                 language="en"
@@ -69,16 +69,16 @@
 
 <script>
 import { mapActions } from "vuex";
-
+import { vp } from "@/tools/helpers";
 export default {
   name: "CreatePost",
   data: function() {
     return {
       form: {
-        title: "title title title title title title title title ",
-        content: " content content content  content content content ",
+        title: "",
+        contentPreRender: "",
+        content: "",
         image: null,
-        user_id: this.$auth.user.id,
         topic: "my topic"
       },
       loading: false
@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     async save(value, render) {
-      this.form.content = value;
+      this.form.content = render;
     },
     handleFileUpload() {
       this.form.image = this.$refs.file.files[0];
@@ -104,10 +104,10 @@ export default {
 
       const { post_id, message } = await this.$post("posts/", form_data);
 
+      vp.$notify.error(message);
+
       this.$router.push({ name: "show-post", params: { id: post_id } });
 
-      console.log("message", message);
-      console.log("post_id", post_id);
       this.loading = false;
     },
     ...mapActions("posts", ["addPost"])

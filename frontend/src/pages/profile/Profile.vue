@@ -7,7 +7,7 @@
             <h2 class="font-weight-bold">
               {{profile.name}}
               <span class="small btn btn-outline-success btn-sm btn-round">
-                <a v-if="$route.params.id != $auth.user.id" href="profile.twitter">Follow</a>
+                <a v-if="$route.params.id != $auth.user.id" href @click="follow">Follow</a>
                 <a
                   v-else
                   href
@@ -33,7 +33,7 @@
         <h4 class="font-weight-bold spanborder">
           <span>Posts by {{profile.name}}</span>
         </h4>
-        <MainLoopCard v-for="(post, index) in profile.posts" :post="post" :key="index"/>
+        <MainLoopCard v-for="(post, index) in posts" :post="post" :key="index"/>
       </div>
     </div>
   </div>
@@ -46,23 +46,33 @@ export default {
   components: { MainLoopCard },
   data: function() {
     return {
-      users: null,
       profile: {
         name: "",
         site: "",
         avatar: "",
-        bio: "",
-        posts: []
-      }
+        bio: ""
+      },
+      posts: []
     };
   },
   methods: {
+    async follow() {},
     async fetchUserData() {
-     // let user = await this.$get("users/" + this.$route.params.id);
-      let posts = await this.$get("user-posts/");
-      console.log(posts);
-      //this.profile = user;
-      //this.profile.posts = posts;
+      this.$get("users/" + this.$route.params.id)
+        .then(data => {
+          this.profile = data.user;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+
+      this.$get("user-posts/" + this.$route.params.id)
+        .then(data => {
+          this.posts = data.posts;
+        })
+        .catch(e => {
+          console.log(e);
+        });
     }
   },
   mounted() {

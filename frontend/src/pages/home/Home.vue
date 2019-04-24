@@ -126,7 +126,6 @@
 </template>
 
 <script>
-//import { mapState, mapGetters } from "vuex";
 import SidebarFeatured from "@/components/layout/sidebar-featured.vue";
 import MainLoopCard from "@/components/layout/main-loop-card.vue";
 
@@ -182,6 +181,27 @@ export default {
         }
       ]
     }
-  })
+  }),
+  methods: {
+    async fetchPostsData() {
+      this.$get("posts/" + this.$route.params.id)
+        .then(data => {
+          this.post = data.post;
+          this.author = data.author;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
+  },
+  mounted() {
+    this.fetchPostsData();
+  },
+  filters: {
+    imageWatcher: function(imgName) {
+      return process.env.VUE_APP_BACKEND_IMG_PATH + imgName;
+    }
+  }
 };
 </script>
+

@@ -10,7 +10,7 @@
             post
           >{{ post.title }}</a>
         </h2>
-        <p class="excerpt">{{ post.excerpt}}</p>
+        <p class="excerpt" v-html="post.excerpt"></p>
         <small class="d-block text-muted">
           In
           <span class="catlist">
@@ -25,7 +25,7 @@
       </div>
       <div v-if="post.image" class="col-md-3 pr-0 text-right">
         <a href @click.prevent="$router.push({ name: 'show-post', params: { id: post.id } })">
-          <img class="w-100" :src="post.image" :alt="post.title">
+          <img class="w-100" :src="post.image | imageWatcher" :alt="post.title">
         </a>
       </div>
     </div>

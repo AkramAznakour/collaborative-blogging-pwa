@@ -17,7 +17,6 @@ Vue.use(VueAxios, {
     config: {
         baseURL: baseApiURL,
         headers: {
-            // so laravel will understand that this is ajax $request->ajax()
             'X-Requested-With': 'XMLHttpRequest',
         }
     },
@@ -42,7 +41,6 @@ Vue.use(VueAxios, {
                 }
             }
 
-            console.log("config : ", config)
             return config
         },
         beforeResponseError(error) {

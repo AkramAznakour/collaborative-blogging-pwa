@@ -5,9 +5,7 @@ Route::middleware(['auth:api'])->group(function () {
         'posts' => 'PostsController',
     ]);
 
-    Route::get(
-        'user-posts', 'PostsController@getUserPosts'
-    );
+    Route::get('user-posts/{user_id}', 'PostsController@getUserPosts');
 
 });
 

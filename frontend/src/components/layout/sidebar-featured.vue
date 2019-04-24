@@ -34,29 +34,8 @@
 
 <script>
 export default {
-  data: function() {
-    return {
-      posts: [
-        {
-          id: 1,
-          title: "There are lots of powerful things you can",
-          topic: "topic",
-          topic_id: 1
-        },
-        {
-          id: 1,
-          title: "There are lots of powerful things you can",
-          topic: "topic",
-          topic_id: 1
-        },
-        {
-          id: 1,
-          title: "There are lots of powerful things you can",
-          topic: "topic",
-          topic_id: 1
-        }
-      ]
-    };
+  props: {
+    posts: []
   }
 };
 </script>
