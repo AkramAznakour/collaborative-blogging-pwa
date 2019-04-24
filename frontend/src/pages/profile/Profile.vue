@@ -10,12 +10,12 @@
                 <a v-if="$route.params.id != $auth.user.id" href="profile.twitter">Follow</a>
                 <a
                   v-else
-                  href="profile.twitter"
+                  href
                   @click.prevent="$router.push({ name: 'account-settings' })"
                 >Edit Account</a>
               </span>
             </h2>
-            <p>
+            <p v-if="profile.site">
               <a href="profile.site">{{ profile.site }}</a>
             </p>
             <p class="excerpt">{{ profile.bio }}</p>
@@ -33,7 +33,7 @@
         <h4 class="font-weight-bold spanborder">
           <span>Posts by {{profile.name}}</span>
         </h4>
-        <MainLoopCard v-for="(post, index) in profile.posts" :key="index"/>
+        <MainLoopCard v-for="(post, index) in profile.posts" :post="post" :key="index"/>
       </div>
     </div>
   </div>
@@ -58,12 +58,11 @@ export default {
   },
   methods: {
     async fetchUserData() {
-      let user = await this.$get("users/" + this.$route.params.id);
-      let posts = await this.$get("user-posts");
+     // let user = await this.$get("users/" + this.$route.params.id);
+      let posts = await this.$get("user-posts/");
       console.log(posts);
-
-      this.profile = user;
-      this.profile.posts = posts;
+      //this.profile = user;
+      //this.profile.posts = posts;
     }
   },
   mounted() {

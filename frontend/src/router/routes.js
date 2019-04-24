@@ -1,4 +1,4 @@
-import MainLayout from '@/layouts/Main.vue'
+import DefaultLayout from '@/layouts/Default.vue'
 
 import auth from './groups/auth'
 import home from './groups/home';
@@ -8,7 +8,7 @@ import others from './groups/others';
 
 export default [{
     path: '/',
-    component: MainLayout,
+    component: DefaultLayout,
     children: [
         ...auth,
         ...home,

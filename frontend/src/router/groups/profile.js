@@ -9,17 +9,17 @@ export default [{
     {
         path: "/account-settings",
         name: "account-settings",
-        component: () => import('@/pages/profile/AccountSettings/AccountSettings.vue'),
+        component: () => import('@/pages/profile/Settings.vue'),
         meta: {
             auth: true
         },
     },
     {
-        path: '/search-user/:name',
-        name: 'search-user',
-        component: () => import('@/pages/profile/SearchUser.vue'),
+        path: '/search/:name',
+        name: 'search',
+        component: () => import('@/pages/profile/Search.vue'),
         meta: {
-            auth: true
+            auth: false
         },
     },
 

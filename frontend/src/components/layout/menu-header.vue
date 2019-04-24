@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div v-if="$store.state.auth.user">
     <li v-for="(menuItem,index) in menuItems" :key="index" class="nav-item">
       <a
         target="_blank"
         class="nav-link"
-        href="#"
+        href
         @click.prevent="$router.push({ name: menuItem.route})"
       >
         {{menuItem.title}}
@@ -22,7 +22,7 @@ export default {
         {
           title: "Write a new post",
           icon: "fa-plus",
-          route: "createPost"
+          route: "create-post"
         }
       ]
     };

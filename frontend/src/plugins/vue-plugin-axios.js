@@ -29,19 +29,20 @@ Vue.use(VueAxios, {
                 if (token) {
                     config.headers.Authorization = `Bearer ${token}`
                 }
-                console.log("config.url : ", config.url);
 
-                if (config.url == "profile/current/set-avatar") {
+                if (config.url == "profile/current/set-avatar" || config.url == "posts") {
                     console.log("it is an image");
                     config.headers = {
                         // so laravel will understand that this is ajax $request->ajax()
+                        'charset': 'utf-8',
                         'Content-Type': 'multipart/form-data',
                         'Authorization': `Bearer ${token}`
                     };
 
-                    console.log("header : ", config)
                 }
             }
+
+            console.log("config : ", config)
             return config
         },
         beforeResponseError(error) {
@@ -52,13 +53,13 @@ Vue.use(VueAxios, {
 
             if (response) { // backend error
                 showServerError(response)
-                console.log("response message : ", message)
-                vp.$notify.error(message)
+                console.log("response message : ", response)
+                // vp.$notify.error(message)
                 // if 401
             } else if (message) { // network error
                 console.log("error message : ", message)
 
-                vp.$notify.error(message)
+                // vp.$notify.error(message)
             }
 
             // return Promise.reject(error)

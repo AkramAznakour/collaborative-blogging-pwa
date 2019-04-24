@@ -4,16 +4,24 @@
       <span>Featured</span>
     </h4>
     <ol class="list-featured">
-      <div v-for="(post, index) in site.tags.featured" :key="index">
+      <div v-for="(post, index) in posts" :key="index">
         <li class="mb-4">
           <span>
             <h6 class="font-weight-bold">
-              <a href="#" class="text-dark">{{ post.title }}</a>
+              <a
+                href
+                @click.prevent="$router.push({ name: 'show-post', params: { id: post.id } })"
+                class="text-dark"
+              >{{ post.title }}</a>
             </h6>
             <span class="d-block text-muted">
               In
-              <span class="catlist" v-for="category in post.categories" :key="category">
-                <a class="text-capitalize text-muted smoothscroll p-1" href="#">{{ category }}</a>
+              <span class="catlist">
+                <a
+                  href
+                  class="text-capitalize text-muted smoothscroll p-1"
+                  @click.prevent="$router.push({ name: 'topic', params: { id: post.topic_id } })"
+                >{{ post.topic }}</a>
                 <span class="sep">,</span>
               </span>
             </span>
@@ -28,27 +36,26 @@
 export default {
   data: function() {
     return {
-      site: {
-        tags: {
-          featured: [
-            {
-              title: "There are lots of powerful things you can",
-              categories: ["categories1", "categories2"],
-              url: ""
-            },
-            {
-              title: "There are lots of powerful things you can",
-              categories: ["categories1", "categories2"],
-              url: ""
-            },
-            {
-              title: "There are lots of powerful things you can",
-              categories: ["categories1", "categories2"],
-              url: ""
-            }
-          ]
+      posts: [
+        {
+          id: 1,
+          title: "There are lots of powerful things you can",
+          topic: "topic",
+          topic_id: 1
+        },
+        {
+          id: 1,
+          title: "There are lots of powerful things you can",
+          topic: "topic",
+          topic_id: 1
+        },
+        {
+          id: 1,
+          title: "There are lots of powerful things you can",
+          topic: "topic",
+          topic_id: 1
         }
-      }
+      ]
     };
   }
 };

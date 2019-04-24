@@ -17,7 +17,7 @@
               >
             </div>
             <div class="col-md-9">
-              <a href="" @click.prevent="$router.push({ name: 'profile',  params: { id: user.id }})">
+              <a href @click.prevent="$router.push({ name: 'profile',  params: { id: user.id }})">
                 <h4 class="text-dark mb-0">{{ user.name }}</h4>
                 <small class="d-inline-block mt-1 mb-3 font-weight-normal">(View Posts)</small>
                 <div class="excerpt">{{ user.bio }}</div>
@@ -54,7 +54,6 @@ export default {
   methods: {
     async fetchUsersData() {
       this.users = await this.$get("search-user/" + this.query);
-      console.log(this.users);
     }
   },
   mounted() {
@@ -63,6 +62,12 @@ export default {
   filters: {
     imageWatcher: function(imgName) {
       return process.env.VUE_APP_BACKEND_IMG_PATH + imgName;
+    }
+  },
+  watch: {
+    "$route.params.name": function(name) {
+      this.query = name;
+      this.fetchUsersData();
     }
   }
 };

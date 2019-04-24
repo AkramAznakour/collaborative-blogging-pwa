@@ -22,7 +22,7 @@
             <MenuHeader/>
           </ul>
           <ul class="navbar-nav ml-auto d-flex align-items-center">
-            <SearchLunr/>
+            <Search/>
           </ul>
           <UserNavBar/>
         </div>
@@ -43,12 +43,12 @@
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
 import MenuHeader from "@/components/layout/menu-header.vue";
-import SearchLunr from "@/components/layout/search-lunr.vue";
+import Search from "@/components/layout/search.vue";
 import AppFooter from "@/components/layout/app-footer.vue";
 import UserNavBar from "@/components/layout/user-nav-bar.vue";
 
 export default {
   name: "MainLayout",
-  components: { MenuHeader, SearchLunr, AppFooter, UserNavBar }
+  components: { MenuHeader, Search, AppFooter, UserNavBar }
 };
 </script>

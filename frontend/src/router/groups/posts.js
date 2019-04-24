@@ -1,22 +1,24 @@
 export default [{
-    path: '/post/:id',
-    name: "showPost",
-    component: () => import('@/pages/post/ShowPost.vue'),
-    meta: {
-        auth: false
+        name: "create-post",
+        path: '/create-post',
+        component: () => import('@/pages/post/CreatePost.vue'),
+        meta: {
+            auth: true
+        },
+    }, {
+        name: "show-post",
+        path: '/show-post/:id',
+        component: () => import('@/pages/post/ShowPost.vue'),
+        meta: {
+            auth: false
+        },
     },
-}, {
-    path: '/post/:id/edit',
-    name: "editPost",
-    component: () => import('@/pages/post/EditPost.vue'),
-    meta: {
-        auth: true
+    {
+        name: "edit-post",
+        path: '/edit-post/:id',
+        component: () => import('@/pages/post/EditPost.vue'),
+        meta: {
+            auth: true
+        }
     }
-}, {
-    path: '/createPost',
-    name: "createPost",
-    component: () => import('@/pages/post/CreatePost.vue'),
-    meta: {
-        auth: true
-    }
-}]
+]

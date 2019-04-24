@@ -21,7 +21,7 @@ export default function RedirectIfAuthenticated (router) {
 
       // next(from.fullPath) Но прошлый путь может быть и тоже не для гостя!
       // router.push('profile')
-      vp.$notify.error('This page is for guests only!')
+    //  vp.$notify.error('This page is for guests only!')
       return
     }
 

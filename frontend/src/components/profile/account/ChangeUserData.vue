@@ -61,7 +61,6 @@
 
 <script>
 import { mapActions } from "vuex";
-
 export default {
   data: function() {
     return {

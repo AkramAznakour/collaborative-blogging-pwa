@@ -5,9 +5,13 @@ import {
 
 let actions = {
 
-    async setPassword({dispatch, commit}, form) {
+    async setPassword({
+        dispatch,
+        commit
+    }, form) {
         const {
-            message, user
+            message,
+            user
         } = await vp.$post('profile/current/set-password', form)
 
         dispatch('auth/setUser', user, {
@@ -17,11 +21,15 @@ let actions = {
         vp.$notify.success(message)
     },
 
-    async setUserData({dispatch, commit}, form) {
+    async setUserData({
+        dispatch,
+        commit
+    }, form) {
         console.log("form in setAvatar :", form);
 
         const {
-            message, user
+            message,
+            user
         } = await vp.$post('profile/current/set-user-data', form)
 
         dispatch('auth/setUser', user, {
@@ -32,10 +40,14 @@ let actions = {
     },
 
 
-    async setAvatar({dispatch, commit}, form) {
+    async setAvatar({
+        dispatch,
+        commit
+    }, form) {
 
         const {
-            message, user
+            message,
+            user
         } = await vp.$post('profile/current/set-avatar', form);
 
         dispatch('auth/setUser', user, {

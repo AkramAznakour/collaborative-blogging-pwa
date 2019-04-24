@@ -6,7 +6,10 @@
 
       <div class="col-md-6">
         <div class="card border-0 mb-4 box-shadow">
-          <a href="#">
+          <a
+            href
+            @click.prevent="$router.push({ name: 'show-post',  params: { id: latest_post.id }})"
+          >
             <div
               :style="{'background-image': 'url(' +latest_post.image+ ')'}"
               style="  background-size: cover; background-repeat: no-repeat ; height : 200px;"
@@ -14,18 +17,21 @@
           </a>
           <div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
             <h2 class="h4 font-weight-bold">
-              <a class="text-dark" href="#">{{ latest_post.title }}</a>
+              <a
+                class="text-dark"
+                href
+                @click.prevent="$router.push({ name: 'show-post',  params: { id: latest_post.id }})"
+              >{{ latest_post.title }}</a>
             </h2>
             <p class="excerpt">{{ latest_post.excerpt }}</p>
             <div>
               <small class="d-block text-muted">
                 In
-                <span
-                  class="catlist"
-                  v-for="(category,index) in latest_post.categories"
-                  :key="index"
-                >
-                  <a class="text-capitalize text-muted smoothscroll p-1" href="#">{{ category }}</a>
+                <span class="catlist">
+                  <a
+                    class="text-capitalize text-muted smoothscroll p-1"
+                    href="#"
+                  >{{ latest_post.topic }}</a>
                   <span class="sep">,</span>
                 </span>
               </small>
@@ -43,19 +49,30 @@
           :key="index"
         >
           <div v-if="second_post.image" class="col-md-4">
-            <a href="#">
+            <a
+              href
+              @click.prevent="$router.push({ name: 'show-post',  params: { id: second_post.id }})"
+            >
               <img class="w-100" :src="second_post.image" :alt="second_post.title">
             </a>
           </div>
 
           <div>
             <h2 class="mb-2 h6 font-weight-bold">
-              <a class="text-dark" href="#">{{ second_post.title }}</a>
+              <a
+                class="text-dark"
+                href
+                @click.prevent="$router.push({ name: 'show-post',  params: { id: second_post.id }})"
+              >{{ second_post.title }}</a>
             </h2>
             <small class="d-block text-muted">
               In
-              <span class="catlist" v-for="category in second_post.categories" :key="category">
-                <a class="text-capitalize text-muted smoothscroll p-1" href="#">{{ category }}</a>
+              <span class="catlist">
+                <a
+                  @click.prevent="$router.push({ name: 'topic',  params: { id: second_post.topic_id }})"
+                  class="text-capitalize text-muted smoothscroll p-1"
+                  href="#"
+                >{{ second_post.topic }}</a>
                 <span class="sep">,</span>
               </span>
             </small>
@@ -65,10 +82,8 @@
       </div>
     </div>
 
-    <!-- Sticky - add sticky tag to the post you want to highlight here - tags: [sticky] -->
     <div v-for="(post, index) in site.posts" :key="index">
       <div
-        v-if="post.tags.includes('sticky')"
         class="jumbotron jumbotron-fluid jumbotron-home pt-0 pb-0 mb-2rem bg-lightblue position-relative"
       >
         <div class="pl-4 pr-0 h-100 tofront">
@@ -76,7 +91,11 @@
             <div class="col-md-6 pt-6 pb-6 pr-lg-4 align-self-center">
               <h1 class="mb-3">{{post.title}}</h1>
               <p class="mb-3 lead">{{ post.excerpt }}</p>
-              <a href="#" class="btn btn-dark">Read More</a>
+              <a
+                href
+                @click.prevent="$router.push({ name: 'show-post',  params: { id: post.id }})"
+                class="btn btn-dark"
+              >Read More</a>
             </div>
             <div
               :style="{'background-image': 'url(' +post.image + ')'}"
@@ -96,7 +115,7 @@
         <h4 class="font-weight-bold spanborder">
           <span>All Stories</span>
         </h4>
-        <MainLoopCard v-for="i in [1,2,3,5]" :key="i"/>
+        <MainLoopCard v-for="i in [1,2,3,5]" :key="i" :post="site.posts[0]"/>
       </div>
 
       <div class="col-md-4">
@@ -116,6 +135,7 @@ export default {
   components: { SidebarFeatured, MainLoopCard },
   data: () => ({
     latest_post: {
+      id: 1,
       title: "There are lots of powerful things you can",
       excerpt:
         "There are lots of powerful things you can do with the Markdown editor. If you've gotten pretty comfortable with writing in Markdown, then you may ",
@@ -123,39 +143,42 @@ export default {
       excerpt:
         "There are lots of powerful things you can do with the Markdown editor. If you've gotten pretty comfortable with writing in Markdown, then you may ",
 
-      categories: ["categories1", "categories2"],
+      topic: "topic",
       date: "Feb 04, 2019"
     },
     second_posts: [
       {
+        id: 1,
         title: "There are lots of powerful things you can",
         image: "http://localhost:8000/img/1.jpg",
-        categories: ["categories1", "categories2"],
+        topic: "topic",
         date: "Feb 04, 2019"
       },
       {
+        id: 1,
         title: "There are lots of powerful things you can",
         image: "http://localhost:8000/img/1.jpg",
-        categories: ["categories1", "categories2"],
+        topic: "topic",
         date: "Feb 04, 2019"
       },
       {
+        id: 1,
         title: "There are lots of powerful things you can",
         image: "http://localhost:8000/img/1.jpg",
-        categories: ["categories1", "categories2"],
+        topic: "topic",
         date: "Feb 04, 2019"
       }
     ],
     site: {
       posts: [
         {
+          id: 1,
           title: "There are lots of powerful things you can",
           image: "http://localhost:8000/img/1.jpg",
           excerpt:
             "There are lots of powerful things you can do with the Markdown editor. If you've gotten pretty comfortable with writing in Markdown, then you may ",
           date: "Feb 04, 2019",
-          categories: ["categories1", "categories2"],
-          tags: ["sticky"]
+          topic: "topic"
         }
       ]
     }

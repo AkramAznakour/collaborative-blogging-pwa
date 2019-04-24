@@ -49,6 +49,6 @@ export const showServerError = ({
         message = data.message
     }
 
-    vp.$notify.error(message)
+   // vp.$notify.error(message)
     console.log(message);
 }

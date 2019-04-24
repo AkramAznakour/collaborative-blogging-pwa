@@ -9,12 +9,12 @@ let actions = {
         commit
     }, form) {
 
-        const {
-            message,
-            user
-        } = await vp.$post('posts', form)
 
-        vp.$notify.success(message)
+
+
+        console.log("res ", res);
+
+        //vp.$notify.success(message)
     },
 
 

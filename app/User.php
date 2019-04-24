@@ -6,10 +6,14 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Notifications\VerifyEmail;
+use Overtrue\LaravelFollow\Traits\CanBeFollowed;
+use Overtrue\LaravelFollow\Traits\CanFollow;
 
 class User extends AuthenticatableForUser implements MustVerifyEmail
 {
     use Notifiable;
+
+    use CanFollow, CanBeFollowed;
 
     protected $fillable = [
         'name', 'email', 'password', 'bio', 'avatar'

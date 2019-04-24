@@ -5,7 +5,7 @@
       type="text"
       class="form-control text-small"
       id="lunrsearch"
-      v-on:keydown.enter.prevent="onSubmit"
+      v-on:keydown.enter.prevent="submit"
       placeholder="Type a user name"
     >
   </form>
@@ -19,8 +19,14 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
-      this.$router.push({ name: "search-user", params: { name: this.query } });
+    submit() {
+      this.$router.push({ name: "search", params: { name: this.query } });
+    }
+  },
+  watch: {
+    query: function(val) {
+      if (this.$route.name == "search")
+        this.$router.push({ name: "search", params: { name: this.query } });
     }
   }
 };

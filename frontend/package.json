@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "serve": "vue-cli-service serve",
-        "build": "rimraf ../public/{js,css} && vue-cli-service build --no-clean --mode production "
+        "build": "rimraf ../public/{js,css} && vue-cli-service build --no-clean  "
     },
     "dependencies": {
         "@vue/cli-plugin-pwa": "^3.5.1",

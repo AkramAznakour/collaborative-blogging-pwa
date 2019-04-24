@@ -60,6 +60,7 @@ class ProfileController extends BaseController
         })->all();
 
         $user->fill($fields)->save();
+
         // 'first_name' => $request->firstName,
         // 'last_name' => $request->lastName,
         // 'gender' => $request->gender,
@@ -81,14 +82,6 @@ class ProfileController extends BaseController
     public function setAvatar(Request $request)
     {
         $user = auth()->user();
-        $cropInfo = json_decode($request->cropInfo, true);
-        $file = $request->file('file');
-
-        $fields = collect(["avatar" => (String)$request->avatar])->keyBy(function ($value, $key) {
-            return snake_case($key);
-        })->all();
-
-        $user->fill($fields)->save();
 
         $img_name = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
 
@@ -100,6 +93,7 @@ class ProfileController extends BaseController
         $fields = collect(["avatar" =>$img_name])->keyBy(function ($value, $key) {
             return snake_case($key);
         })->all();
+
         $user->fill($fields)->save();
 
 

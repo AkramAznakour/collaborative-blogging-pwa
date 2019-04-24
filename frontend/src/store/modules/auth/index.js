@@ -66,7 +66,7 @@ const module = {
             // console.log(store.state.route.path)
             if (store.state.route.meta.guest) {
                 router.push({
-                    name: 'profile'
+                    name: 'home'
                 })
             }
 
@@ -78,27 +78,27 @@ const module = {
             // If route requires auth or guest, then redirect
             if (store.state.route.meta.auth) {
                 router.push({
-                    name: 'signin'
+                    name: 'home'
                 })
             }
             if (store.state.route.meta.guest) {
-                router.push('/')
+                router.push('/');
             }
         }
     },
     actions: {
         async signin({
-                         dispatch,
-                         commit
-                     }, form) {
+            dispatch,
+            commit
+        }, form) {
             const loggedInData = await vp.$post('auth/signin', form)
 
             await dispatch('loggedIn', loggedInData)
         },
         async signup({
-                         dispatch,
-                         commit
-                     }, form) {
+            dispatch,
+            commit
+        }, form) {
             console.log(form);
 
             const loggedInData = await vp.$post('auth/signup', form)
@@ -112,13 +112,13 @@ const module = {
             vp.$notify.success('Registered successfully!')
         },
         async loggedIn({
-                           dispatch,
-                           commit
-                       }, {
-                           user,
-                           tokenInfo,
-                           showMsg = true
-                       }) {
+            dispatch,
+            commit
+        }, {
+            user,
+            tokenInfo,
+            showMsg = true
+        }) {
             commit(TOKEN, tokenInfo)
             commit(USER, user)
             commit(USER_LOGGED_IN)
@@ -128,27 +128,27 @@ const module = {
             }
         },
         async getUser({
-                          commit
-                      }) {
+            commit
+        }) {
             const {
                 user
             } = await vp.$get('auth/user')
             return commit(USER, user)
         },
         async logout({
-                         dispatch,
-                         commit
-                     }) {
+            dispatch,
+            commit
+        }) {
             await vp.$post('auth/logout')
             await dispatch('setNullTokenAndUser')
             commit(USER_LOGGED_OUT, true)
             vp.$notify.success('Logged out successfully.')
         },
         async refresh({
-                          dispatch,
-                          commit,
-                          state
-                      }) {
+            dispatch,
+            commit,
+            state
+        }) {
             const tokenInfo = await vp.$post('auth/refresh')
 
             if (tokenInfo.status === 'tokenAlreadyRefreshed') return
@@ -161,33 +161,33 @@ const module = {
             setTimeoutTokenRefresh(state)
         },
         async refreshTokenExpired({
-                                      dispatch,
-                                      commit
-                                  }) {
+            dispatch,
+            commit
+        }) {
             await dispatch('setNullTokenAndUser')
             commit(REFRESH_TOKEN_EXPIRED)
             commit(USER_LOGGED_OUT, false)
         },
         async setNullUser({
-                              commit
-                          }) {
+            commit
+        }) {
             commit(USER, null)
         },
         async setNullTokenAndUser({
-                                      commit
-                                  }) {
+            commit
+        }) {
             commit(TOKEN, null)
             commit(USER, null)
         },
         // save user from server here after editing
         async setUser({
-                          commit
-                      }, user) {
+            commit
+        }, user) {
             commit(USER, user)
         },
         async init({
-                       state
-                   }) {
+            state
+        }) {
             setTimeoutTokenRefresh(state)
         }
     },
@@ -211,9 +211,9 @@ const module = {
 export default module
 
 function setTimeoutTokenRefresh({
-                                    token,
-                                    tokenExpiresIn
-                                }) {
+    token,
+    tokenExpiresIn
+}) {
     if (!token) {
         return
     }
