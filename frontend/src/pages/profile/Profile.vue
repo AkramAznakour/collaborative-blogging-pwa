@@ -7,7 +7,7 @@
             <h2 class="font-weight-bold">
               {{profile.name}}
               <span class="small btn btn-outline-success btn-sm btn-round">
-                <a v-if="$route.params.id != $auth.user.id" href @click="follow">Follow</a>
+                <a v-if="profile.id != $auth.user.id" href @click="follow">Follow</a>
                 <a
                   v-else
                   href
@@ -47,6 +47,7 @@ export default {
   data: function() {
     return {
       profile: {
+        id: "",
         name: "",
         site: "",
         avatar: "",
@@ -68,6 +69,8 @@ export default {
 
       this.$get("user-posts/" + this.$route.params.id)
         .then(data => {
+          console.log(data);
+
           this.posts = data.posts;
         })
         .catch(e => {

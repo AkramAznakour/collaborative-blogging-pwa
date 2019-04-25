@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Post;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PostExcerptResource extends JsonResource
@@ -20,7 +21,7 @@ class PostExcerptResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'image' => $this->image,
-            'excerpt' => substr(strip_tags($this->excerpt,1,80)) + "...",
+            'excerpt' => substr(strip_tags($this->excerp),1,80),
             'topic' => $this->topic->name,
             'topic_id' => $this->topic_id,
             'date' => $this->created_at->format('d M Y'),
