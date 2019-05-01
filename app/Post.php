@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use willvincent\Rateable\Rateable;
 
 class Post extends Model
 {
+
+    use Rateable;
+
     protected $table = 'posts';
     protected $fillable = ['title', 'image', 'content', 'user_id', 'topic_id',];
 
@@ -23,18 +27,8 @@ class Post extends Model
 
     public function comments()
     {
-        return $this->hasMany('App\Comment');
+        return $this->hasMany('App\Comment',"post_id");
     }
 
-    public function getShotFormat()
-    {
-        return [
-            'id' => $this->id,
-            'title' => $this->title,
-            'excerpt' => $this->content,
-            'topic_id' => $this->topic_id,
-            'topic' => $this->topic()->name,
 
-        ];
-    }
 }

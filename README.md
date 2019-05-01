@@ -7,13 +7,13 @@
 - [x] showing profile accounts of authors
 - [x] writing posts
 - [x] showing posts
-- [ ] writing comments
-- [ ] showing comments
-- [ ] showing topics
-- [ ] following a user `https://github.com/overtrue/laravel-follow`
+- [x] writing comments
+- [x] showing comments
+- [x] showing topics
+- [x] following a user `https://github.com/overtrue/laravel-follow`
 - [ ] following a topic `https://github.com/overtrue/laravel-follow`
-- [ ] rating posts `https://github.com/willvincent/laravel-rateable`
-- [ ] showing user feed
+- [x] rating posts `https://github.com/willvincent/laravel-rateable`
+- [x] showing user feed
 - [ ] infinit scrolling
 
 #### PWA functionalities

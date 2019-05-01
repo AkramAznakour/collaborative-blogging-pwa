@@ -9,6 +9,15 @@
             @click.prevent="$router.push({ name: 'show-post', params: { id: post.id } })"
             post
           >{{ post.title }}</a>
+          <star-rating
+            :star-size="20"
+            :glow="10"
+            v-model="post.rating"
+            :show-rating="false"
+            :border-width="0"
+            :read-only="true"
+            :rounded-corners="true"
+          ></star-rating>
         </h2>
         <p class="excerpt" v-html="post.excerpt"></p>
         <small class="d-block text-muted">
@@ -17,10 +26,11 @@
             <a
               class="text-capitalize text-muted smoothscroll p-1"
               href
-              @click.prevent="$router.push({ name: 'topic', params: { id: post.topic_id } })"
+              @click.prevent="$router.push({ name: 'show-topic', params: { id: post.topic_id } })"
             >{{ post.topic }}</a>
           </span>
         </small>
+
         <small class="text-muted">{{ post.date }}</small>
       </div>
       <div v-if="post.image" class="col-md-3 pr-0 text-right">
@@ -33,7 +43,11 @@
 </template>
 
 <script>
+import StarRating from "vue-star-rating";
+
 export default {
+  components: { StarRating },
+
   props: {
     post: {
       type: Object

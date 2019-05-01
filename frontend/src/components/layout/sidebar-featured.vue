@@ -20,7 +20,7 @@
                 <a
                   href
                   class="text-capitalize text-muted smoothscroll p-1"
-                  @click.prevent="$router.push({ name: 'topic', params: { id: post.topic_id } })"
+                  @click.prevent="$router.push({ name: 'show-topic', params: { id: post.topic_id } })"
                 >{{ post.topic }}</a>
                 <span class="sep">,</span>
               </span>
@@ -35,7 +35,9 @@
 <script>
 export default {
   props: {
-    posts: []
+    posts: {
+      type: Array
+    }
   }
 };
 </script>

@@ -7,7 +7,6 @@ use willvincent\Rateable\Rateable;
 
 class Topic extends Model
 {
-    use Rateable;
 
     protected $table = "topics";
     protected $fillable = ['name'];

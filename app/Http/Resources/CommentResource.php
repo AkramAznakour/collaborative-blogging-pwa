@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use App\Topic;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TopicResource extends JsonResource
+class CommentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,12 +15,16 @@ class TopicResource extends JsonResource
      */
     public function toArray($request)
     {
-        $last_topic_post = Topic::find($this->id)->posts->last();
 
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'post' => new PostExcerptResource($last_topic_post)
+            'title' => $this->title,
+            'content' => $this->content,
+            'date' => $this->created_at,
+            'author' => [
+                'name'=> $this->user->name,
+                'image'=> $this->user->avatar,
+            ],
         ];
     }
 }

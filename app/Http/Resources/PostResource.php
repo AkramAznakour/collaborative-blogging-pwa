@@ -24,6 +24,7 @@ class PostResource extends JsonResource
             'date' => $this->date,
             'content' => $this->content,
             'topic' => $this->topic->name,
+            'rating' => $this->userAverageRating,
             'topic_id' => $this->topic_id,
             'date' => $this->created_at->format('d M Y'),
             'next'=> [

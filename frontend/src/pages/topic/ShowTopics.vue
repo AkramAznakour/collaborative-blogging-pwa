@@ -1,13 +1,18 @@
 <template>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-md-8" v-for="(topic, index) in topics" :key="index">
-        <h1 class="font-weight-bold title h6 text-uppercase mb-4">Topics</h1>
-        <h4 class="font-weight-bold spanborder text-capitalize">
-          <span>{{ topic.name }}</span>
-        </h4>
+      <div class="col-md-8">
+        <h1 class="font-weight-bold title h2 text-uppercase mb-4">Topics</h1>
 
-        <MainLoopCard v-for="(post, index) in posts" :post="post" :key="index"/>
+        <div v-for="(topic, index) in topics" :key="index">
+          <h4 class="font-weight-bold h3 spanborder text-capitalize">
+            <a href @click.prevent="$router.push({ name: 'show-topic', params: { id: topic.id } })">
+              <span>{{ topic.name }}</span>
+            </a>
+          </h4>
+
+          <MainLoopCard :post="topic.post"/>
+        </div>
       </div>
 
       <div class="col-md-4">
@@ -16,6 +21,7 @@
     </div>
   </div>
 </template>
+ 
 <script>
 import MainLoopCard from "@/components/layout/main-loop-card.vue";
 import SidebarFeatured from "@/components/layout/sidebar-featured.vue";
@@ -23,26 +29,35 @@ export default {
   name: "Topic",
   components: { MainLoopCard, SidebarFeatured },
   data: function() {
-    return {};
+    return {
+      featureds: [],
+      topics: []
+    };
   },
   methods: {
-    async fetchTopicData() {
-      let { id, title, content, image, timestamps } = await this.$get(
-        "posts/" + this.$route.params.id
-      );
+    async fetchTpoicsData() {
+      this.$get("topics/")
+        .then(data => {
+          console.log(data);
+          this.topics = data.topics;
+          this.featureds = data.featureds;
+        })
+        .catch(e => {
+          console.log(e);
+        });
     }
   },
   mounted() {
-    this.fetchTopicData();
+    this.fetchTpoicsData();
   },
   filters: {
-    imageWatcher: function(imgName) {
+    avatarWatch: function(imgName) {
       return process.env.VUE_APP_BACKEND_IMG_PATH + imgName;
     }
   },
   watch: {
     $route(to, from) {
-      this.fetchTopicData();
+      this.fetchTpoicsData();
     }
   }
 };

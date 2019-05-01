@@ -11,7 +11,7 @@
             @click.prevent="$router.push({ name: 'show-post',  params: { id: latest_post.id }})"
           >
             <div
-              :style="{'background-image': 'url(' +latest_post.image+ ')'}"
+              :style="{'background-image': 'url(' + BACKEND_IMG_PATH + latest_post.image   + ')'}"
               style="  background-size: cover; background-repeat: no-repeat ; height : 200px;"
             ></div>
           </a>
@@ -23,11 +23,20 @@
                 @click.prevent="$router.push({ name: 'show-post',  params: { id: latest_post.id }})"
               >{{ latest_post.title }}</a>
             </h2>
+            <star-rating
+              :star-size="25"
+              :glow="10"
+              v-model="latest_post.rating"
+              :show-rating="false"
+              :border-width="0"
+              :read-only="true"
+              :rounded-corners="true"
+            ></star-rating>
             <p class="excerpt">{{ latest_post.excerpt }}</p>
             <div>
               <small class="d-block text-muted">
                 In
-                <span class="catlist">
+                <span class="catlistread-only">
                   <a
                     class="text-capitalize text-muted smoothscroll p-1"
                     href="#"
@@ -53,7 +62,7 @@
               href
               @click.prevent="$router.push({ name: 'show-post',  params: { id: second_post.id }})"
             >
-              <img class="w-100" :src="second_post.image" :alt="second_post.title">
+              <img class="w-100" :src="second_post.image | imageUrlFilter" :alt="second_post.title">
             </a>
           </div>
 
@@ -65,6 +74,15 @@
                 @click.prevent="$router.push({ name: 'show-post',  params: { id: second_post.id }})"
               >{{ second_post.title }}</a>
             </h2>
+            <star-rating
+              :star-size="20"
+              :glow="10"
+              v-model="second_post.rating"
+              :show-rating="false"
+              :border-width="0"
+              :read-only="true"
+              :rounded-corners="true"
+            ></star-rating>
             <small class="d-block text-muted">
               In
               <span class="catlist">
@@ -82,30 +100,30 @@
       </div>
     </div>
 
-    <div v-for="(post, index) in site.posts" :key="index">
+    <!--   <div>
       <div
         class="jumbotron jumbotron-fluid jumbotron-home pt-0 pb-0 mb-2rem bg-lightblue position-relative"
       >
         <div class="pl-4 pr-0 h-100 tofront">
           <div class="row justify-content-between">
             <div class="col-md-6 pt-6 pb-6 pr-lg-4 align-self-center">
-              <h1 class="mb-3">{{post.title}}</h1>
-              <p class="mb-3 lead">{{ post.excerpt }}</p>
+              <h1 class="mb-3">{{jumbotron_post.title}}</h1>
+              <p class="mb-3 lead">{{ jumbotron_post.excerpt }}</p>
               <a
                 href
-                @click.prevent="$router.push({ name: 'show-post',  params: { id: post.id }})"
+                @click.prevent="$router.push({ name: 'show-post',  params: { id: jumbotron_post.id }})"
                 class="btn btn-dark"
               >Read More</a>
             </div>
             <div
-              :style="{'background-image': 'url(' +post.image + ')'}"
+              :style="{'background-image': 'url(' + BACKEND_IMG_PATH + jumbotron_post.image  + ')'}"
               style="background-size:cover"
               class="col-md-6 d-none d-md-block pr-0"
             ></div>
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
     <!--endif page url is / -->
 
     <!-- Now the rest of the posts with the usual loop but with an offset:4 on the first page so we can skeep the first 4 posts displayed above -->
@@ -115,11 +133,11 @@
         <h4 class="font-weight-bold spanborder">
           <span>All Stories</span>
         </h4>
-        <MainLoopCard v-for="i in [1,2,3,5]" :key="i" :post="site.posts[0]"/>
+        <MainLoopCard v-for="(post , index) in posts" :key="index" :post="post"/>
       </div>
 
       <div class="col-md-4">
-        <SidebarFeatured/>
+        <SidebarFeatured :posts="featureds"/>
       </div>
     </div>
   </div>
@@ -128,66 +146,29 @@
 <script>
 import SidebarFeatured from "@/components/layout/sidebar-featured.vue";
 import MainLoopCard from "@/components/layout/main-loop-card.vue";
+import StarRating from "vue-star-rating";
 
 export default {
   name: "Home",
-  components: { SidebarFeatured, MainLoopCard },
+  components: { SidebarFeatured, MainLoopCard, StarRating },
   data: () => ({
-    latest_post: {
-      id: 1,
-      title: "There are lots of powerful things you can",
-      excerpt:
-        "There are lots of powerful things you can do with the Markdown editor. If you've gotten pretty comfortable with writing in Markdown, then you may ",
-      image: "http://localhost:8000/img/1.jpg",
-      excerpt:
-        "There are lots of powerful things you can do with the Markdown editor. If you've gotten pretty comfortable with writing in Markdown, then you may ",
-
-      topic: "topic",
-      date: "Feb 04, 2019"
-    },
-    second_posts: [
-      {
-        id: 1,
-        title: "There are lots of powerful things you can",
-        image: "http://localhost:8000/img/1.jpg",
-        topic: "topic",
-        date: "Feb 04, 2019"
-      },
-      {
-        id: 1,
-        title: "There are lots of powerful things you can",
-        image: "http://localhost:8000/img/1.jpg",
-        topic: "topic",
-        date: "Feb 04, 2019"
-      },
-      {
-        id: 1,
-        title: "There are lots of powerful things you can",
-        image: "http://localhost:8000/img/1.jpg",
-        topic: "topic",
-        date: "Feb 04, 2019"
-      }
-    ],
-    site: {
-      posts: [
-        {
-          id: 1,
-          title: "There are lots of powerful things you can",
-          image: "http://localhost:8000/img/1.jpg",
-          excerpt:
-            "There are lots of powerful things you can do with the Markdown editor. If you've gotten pretty comfortable with writing in Markdown, then you may ",
-          date: "Feb 04, 2019",
-          topic: "topic"
-        }
-      ]
-    }
+    BACKEND_IMG_PATH: process.env.VUE_APP_BACKEND_IMG_PATH,
+    latest_post: {},
+    second_posts: [],
+    posts: [],
+    jumbotron_post: {}
   }),
+
   methods: {
-    async fetchPostsData() {
-      this.$get("posts/" + this.$route.params.id)
+    async fetchUserData() {
+      this.$get("home/")
         .then(data => {
-          this.post = data.post;
-          this.author = data.author;
+          console.log(data);
+          this.latest_post = data.latest_post;
+          this.second_posts = data.second_posts;
+          this.posts = data.posts;
+          this.featureds = data.featureds;
+          this.jumbotron_post = data.posts[0];
         })
         .catch(e => {
           console.log(e);
@@ -195,13 +176,17 @@ export default {
     }
   },
   mounted() {
-    this.fetchPostsData();
+    this.fetchUserData();
   },
   filters: {
-    imageWatcher: function(imgName) {
+    imageUrlFilter: function(imgName) {
       return process.env.VUE_APP_BACKEND_IMG_PATH + imgName;
+    }
+  },
+  watch: {
+    $route(to, from) {
+      this.fetchUserData();
     }
   }
 };
 </script>
-

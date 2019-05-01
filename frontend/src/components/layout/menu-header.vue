@@ -1,12 +1,7 @@
 <template>
-  <div v-if="$store.state.auth.user">
+  <div v-if="$store.state.auth.user" class="navbar">
     <li v-for="(menuItem,index) in menuItems" :key="index" class="nav-item">
-      <a
-        target="_blank"
-        class="nav-link"
-        href
-        @click.prevent="$router.push({ name: menuItem.route})"
-      >
+      <a class="nav-link" href @click.prevent="$router.push({ name: menuItem.route})">
         {{menuItem.title}}
         <i v-if="menuItem.icon" :class="menuItem.icon" class="fa text-danger"></i>
       </a>
@@ -23,6 +18,11 @@ export default {
           title: "Write a new post",
           icon: "fa-plus",
           route: "create-post"
+        },
+        {
+          title: "Topics",
+          icon: "fa-plus",
+          route: "show-topics"
         }
       ]
     };

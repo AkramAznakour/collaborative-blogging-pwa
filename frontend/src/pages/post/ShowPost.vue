@@ -16,38 +16,34 @@
                   <a
                     class="sscroll text-danger p-1"
                     href
-                    @click.prevent="$router.push({ name: 'topic', params: { id: post.topic_id } })"
+                    @click.prevent="$router.push({ name: 'show-topic', params: { id: post.topic_id } })"
                   >{{ post.topic }}</a>
                   <span class="sep">,</span>
                 </span>
               </p>
               <h1 class="display-4 mb-4 article-headline">{{ post.title }}</h1>
-              <div class="d-flex align-items-center">
-                <img
-                  class="rounded-circle"
-                  :src=" author.avatar | imageWatcher"
-                  :alt="author.name"
-                  width="70"
-                >
+              <a href @click.prevent="$router.push({ name: 'profile', params: { id: author.id} })">
+                <div class="d-flex align-items-center">
+                  <img
+                    class="rounded-circle"
+                    style="height:100px;width:100px"
+                    :src=" author.avatar | imageUrlFilter"
+                    :alt="author.name"
+                    width="70"
+                  >
 
-                <small class="ml-3">
-                  {{ author.name }}
-                  <span>
-                    <a
-                      v-if="author.id != $auth.user.id"
-                      target="_blank"
-                      href
-                      @click.prevent="$router.push({ name: 'profile', params: { id: author.id } })"
-                      class="btn btn-outline-success btn-sm btn-round ml-1"
-                    >Follow</a>
-                  </span>
-                  <span class="text-muted d-block mt-1">{{ post.date }} · {{post.readingTime}}</span>
-                </small>
-              </div>
+                  <small class="ml-3">
+                    {{ author.name }}
+                    <span
+                      class="text-muted d-block mt-1"
+                    >{{ post.date }} · {{post.readingTime}}</span>
+                  </small>
+                </div>
+              </a>
             </div>
 
             <div v-if="post.image " class="col-md-6 pr-0 align-self-center">
-              <img class="rounded" :src="post.image| imageWatcher" :alt="post.title">
+              <img class="rounded" :src="post.image| imageUrlFilter" :alt="post.title">
             </div>
           </div>
         </div>
@@ -59,13 +55,19 @@
         <!-- Share -->
         <div class="col-lg-2 pr-4 mb-4 col-md-12">
           <div class="sticky-top sticky-top-offset text-center">
-            <div class="text-muted">Share this</div>
+            <div class="text-muted"></div>
             <div class="share d-inline-block">
               <!-- AddToAny BEGIN -->
               <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
-                <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
-                <a class="a2a_button_facebook"></a>
-                <a class="a2a_button_twitter"></a>
+                <star-rating
+                  :star-size="25"
+                  :glow="10"
+                  v-model="post.rating"
+                  :show-rating="false"
+                  :border-width="0"
+                  @rating-selected="setPostRating"
+                  :rounded-corners="true"
+                ></star-rating>
               </div>
               <!-- AddToAny END -->
             </div>
@@ -82,22 +84,18 @@
             <div class="col-md-2 align-self-center">
               <img
                 class="rounded-circle"
-                :src="author.avatar  | imageWatcher"
+                style="height:100px;width:100px"
+                :src="author.avatar  | imageUrlFilter"
                 :alt="author.name"
                 width="90"
               >
             </div>
             <div class="col-md-10">
               <h5 class="font-weight-bold">
-                Written by {{ author.name }}
-                <span>
-                  <a
-                    v-if="author.id != $auth.user.id"
-                    target="_blank"
-                    href
-                    class="btn btn-outline-success btn-sm btn-round ml-2"
-                  >Follow</a>
-                </span>
+                <a
+                  href
+                  @click.prevent="$router.push({ name: 'profile', params: { id: author.id} })"
+                >Written by {{ author.name }}</a>
               </h5>
               {{ author.bio }}
             </div>
@@ -107,7 +105,7 @@
     </div>
 
     <!-- Aletbar Prev/Next -->
-    <div class>
+    <div>
       <div class="container">
         <div class="row prevnextlinks small font-weight-bold">
           <div v-if="post.previous.id" class="col-md-6 rightborder pl-0">
@@ -120,7 +118,7 @@
                 v-if="post.previous.image"
                 height="30px"
                 class="mr-1"
-                :src="post.previous.image  | imageWatcher"
+                :src="post.previous.image  | imageUrlFilter"
               >
               {{post.previous.title}}
             </a>
@@ -137,10 +135,85 @@
                 v-if="post.next.image"
                 height="30px"
                 class="ml-1"
-                :src="post.next.image  | imageWatcher"
+                :src="post.next.image  | imageUrlFilter"
               >
             </a>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- comments -->
+    <div class="row pt-5">
+      <div class="container">
+        <h4 class="font-weight-bold spanborder">
+          <span>Comments</span>
+        </h4>
+        <div
+          class="mb-5 row d-flex justify-content-between main-loop-card"
+          v-for="(comment, index) in comments"
+          :key="index"
+        >
+          <div class="col-md-2 pr-0 text-right">
+            <img
+              class="rounded-circle"
+              style="height:100px;width:100px"
+              :src="comment.author.image | imageUrlFilter"
+              :alt="comment.author.name"
+            >
+          </div>
+
+          <div class="pr-3 col-md-10">
+            <h4 class="mb-1 h4 font-weight-bold">
+              <a class="text-black-50">{{author.name}}</a>
+            </h4>
+            <h2 class="mb-1 h4 font-weight-bold">
+              <span class="text-dark">{{ comment.title }}</span>
+            </h2>
+
+            <p class="excerpt" v-html="comment.content"></p>
+
+            <small class="text-muted">{{ post.date }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- comments -->
+    <div class="row pt-5">
+      <div class="container">
+        <h4 class="font-weight-bold spanborder">
+          <span>Add comment</span>
+        </h4>
+        <div class="mb-5 row d-flex justify-content-between main-loop-card">
+          <form class="mt-4 w-100 clearfix">
+            <div class="form-group">
+              <label for="title">Title :</label>
+              <input
+                id="title"
+                required
+                v-model="newComment.title"
+                type="text"
+                class="form-control"
+                placeholder="Enter title"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="content">Content :</label>
+              <mavon-editor
+                v-model="newComment.contentPreRender"
+                ref="md"
+                :ishljs="true"
+                language="en"
+                @save="save"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary float-right" @click.prevent="submit">
+              <span v-if="loading">Loading...</span>
+              <span v-else>Submit your post</span>
+            </button>
+          </form>
         </div>
       </div>
     </div>
@@ -149,26 +222,71 @@
 
 
 <script>
-//import VueMarkdown from "vue-markdown";
+import StarRating from "vue-star-rating";
 
 export default {
-  components: {},
+  components: { StarRating },
 
   data: function() {
     return {
+      loading: false,
       author: {},
       post: {
         previous: {},
         next: {}
+      },
+      comments: [],
+      newComment: {
+        title: "",
+        content: "",
+        contentPreRender: ""
       }
     };
   },
   methods: {
+    async submit() {
+      this.loading = true;
+
+      this.$post("addComment/" + this.post.id, this.newComment)
+        .then(data => {
+          console.log(data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+
+      console.log(form_data);
+
+      this.loading = false;
+    },
+    async save(value, render) {
+      this.newComment.content = render;
+    },
+    async setPostRating(rating) {
+      this.$get("rate/" + this.post.id + "/" + rating)
+        .then(data => {
+          console.log(data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+
+      console.log(rating);
+    },
     async fetchPostData() {
       this.$get("posts/" + this.$route.params.id)
         .then(data => {
           this.post = data.post;
           this.author = data.author;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+
+      this.$get("getComments/" + this.$route.params.id)
+        .then(data => {
+          console.log(data);
+          this.comments = data.comments;
         })
         .catch(e => {
           console.log(e);
@@ -179,7 +297,7 @@ export default {
     this.fetchPostData();
   },
   filters: {
-    imageWatcher: function(imgName) {
+    imageUrlFilter: function(imgName) {
       return process.env.VUE_APP_BACKEND_IMG_PATH + imgName;
     }
   },

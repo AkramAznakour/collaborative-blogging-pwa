@@ -18,6 +18,9 @@ Route::namespace('API')->group(function () {
     require base_path('routes/api/profile.php');
     require base_path('routes/api/users.php');
     require base_path('routes/api/posts.php');
+    require base_path('routes/api/topics.php');
+    require base_path('routes/api/following.php');
+    require base_path('routes/api/home.php');
 });
 
 

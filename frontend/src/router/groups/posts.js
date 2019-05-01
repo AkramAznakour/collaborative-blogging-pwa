@@ -12,13 +12,4 @@ export default [{
         meta: {
             auth: false
         },
-    },
-    {
-        name: "edit-post",
-        path: '/edit-post/:id',
-        component: () => import('@/pages/post/EditPost.vue'),
-        meta: {
-            auth: true
-        }
-    }
-]
+}];

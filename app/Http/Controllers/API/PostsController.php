@@ -7,6 +7,7 @@ use App\Http\Resources\PostResource;
 use App\Http\Resources\UserResource;
 use App\Post;
 use App\Topic;
+use willvincent\Rateable\Rating;
 
 class PostsController extends BaseController
 {
@@ -76,6 +77,25 @@ class PostsController extends BaseController
             [
                 "posts" => $postsResources,
                 "message" => "post was successfully created"
+            ];
+    }
+
+    public function ratePost($post_id, $rate)
+    {
+        $user = auth()->user();
+        $post = Post::find($post_id);
+        $rating = new  Rating();
+        if (Rating::where("rateable_id", $post_id)->where("user_id", $user->id)->first()) {
+            $rating = Rating::where("rateable_id", $post_id)->where("user_id", $user->id)->first();
+        } else
+            $rating->user_id =  $user->id;
+
+        $rating->rating = $rate;
+        $post->ratings()->save($rating);
+
+        return
+            [
+                "message" => "ok"
             ];
     }
 }

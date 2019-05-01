@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
@@ -14,7 +15,7 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $data =  [
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
@@ -24,5 +25,10 @@ class UserResource extends JsonResource
             'createdAt' => (string) $this->created_at,
             'updatedAt' => (string) $this->updated_at,
         ];
+
+        if (auth()->user()->id != $this->id )
+            $data["isFollowed"] = auth()->user()->isFollowing(User::find($this->id));
+
+        return $data;
     }
 }
