@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use willvincent\Rateable\Rateable;
+use willvincent\Rateable\Rating;
 
 class Post extends Model
 {
@@ -18,6 +19,10 @@ class Post extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function rating()
+    {
+        return $this->hasMany(Rating::class);
+    }
 
     public function topic()
     {

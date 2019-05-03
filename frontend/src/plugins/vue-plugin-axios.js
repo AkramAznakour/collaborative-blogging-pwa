@@ -22,12 +22,15 @@ Vue.use(VueAxios, {
     },
     interceptors: {
         beforeRequest(config, axiosInstance) {
+            console.log(config.url);
+
             if (config.baseURL === baseApiURL) {
                 const token = store.state.auth.token;
 
                 if (token) {
                     config.headers.Authorization = `Bearer ${token}`
                 }
+                console.log(token);
 
                 if (config.url == "profile/current/set-avatar" || config.url == "posts") {
                     console.log("it is an image");
@@ -40,7 +43,6 @@ Vue.use(VueAxios, {
 
                 }
             }
-
             return config
         },
         beforeResponseError(error) {

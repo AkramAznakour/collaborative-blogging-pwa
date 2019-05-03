@@ -11,15 +11,14 @@ class FollowingController extends BaseController
     {
 
         $user = auth()->user();
+
         $folled_user = User::find($folled_id);
 
         $user->toggleFollow($folled_user);
+
         return [
-            "toggleFollow"=>true
+            "toggleFollow"=> true
         ];
     }
-
-
-
 
 }

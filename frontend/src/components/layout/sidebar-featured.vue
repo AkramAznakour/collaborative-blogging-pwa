@@ -35,9 +35,7 @@
 <script>
 export default {
   props: {
-    posts: {
-      type: Array
-    }
+    posts: {}
   }
 };
 </script>

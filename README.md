@@ -14,7 +14,7 @@
 - [ ] following a topic `https://github.com/overtrue/laravel-follow`
 - [x] rating posts `https://github.com/willvincent/laravel-rateable`
 - [x] showing user feed
-- [ ] infinit scrolling
+- [x] infinit scrolling
 
 #### PWA functionalities
 - [ ] cashing data and files

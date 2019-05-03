@@ -10,11 +10,9 @@ import 'mavon-editor/dist/css/index.css'
 
 
 import "highlight.js/styles/default.css";
-import Highlight from "vue-markdown-highlight";
-Vue.use(Highlight);
-
 Vue.use(mavonEditor)
-
+import ScrollLoader from "vue-scroll-loader";
+Vue.use(ScrollLoader)
 // 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import "./assets/css/main.css";

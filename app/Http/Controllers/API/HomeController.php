@@ -4,13 +4,36 @@ namespace App\Http\Controllers\API;
 
 
 use App\Http\Resources\PostExcerptResource;
-use App\Http\Resources\UserResource;
-use App\User;
-use Illuminate\Support\Collection;
+use App\Http\Resources\PostResource;
+use App\Post;
+use Illuminate\Http\Request;
+
 
 class HomeController extends BaseController
 {
-    public function index()
+    public function index($page)
+    {
+        //$posts = $this->getUserPostsFeed();
+
+        $posts = $this->getUserPostsFeed()->slice( $page,5);
+
+
+        $loadMore = true;
+
+        if ($posts->count() == 0)
+            $loadMore = false;
+
+
+        return [
+            "posts" => $posts,
+            "loadMore" => $loadMore,
+            "message" => "",
+        ];
+
+
+    }
+
+    public function getUserPostsFeed()
     {
 
         $user = auth()->user();
@@ -24,16 +47,6 @@ class HomeController extends BaseController
             }
         }
 
-        $posts = new Collection($posts);
-        $posts = $posts->sortBy('date');
-
-        return [
-            "latest_post" => $posts->slice(0, 1)->first(),
-            "second_posts" => $posts->slice(1, 4)->all(),
-            "posts" => $posts->slice(3)->all(),
-            "featureds" => $posts->slice(1, 5)->all(),
-        ];
+        return collect($posts);
     }
-
-
 }

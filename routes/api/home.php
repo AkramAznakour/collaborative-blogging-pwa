@@ -2,7 +2,7 @@
 
 Route::middleware(['auth:api'])->group(function () {
 
-    Route::get('home', 'HomeController@index');
+    Route::get('home/{page}', 'HomeController@index');
 
 
 });

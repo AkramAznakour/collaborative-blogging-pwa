@@ -165,7 +165,7 @@
 
           <div class="pr-3 col-md-10">
             <h4 class="mb-1 h4 font-weight-bold">
-              <a class="text-black-50">{{author.name}}</a>
+              <a class="text-black-50">{{comment.author.name}}</a>
             </h4>
             <h2 class="mb-1 h4 font-weight-bold">
               <span class="text-dark">{{ comment.title }}</span>
@@ -185,7 +185,7 @@
         <h4 class="font-weight-bold spanborder">
           <span>Add comment</span>
         </h4>
-        <div class="mb-5 row d-flex justify-content-between main-loop-card">
+        <div class="mb-5 row d-flex justify-content-between main-loop-card container">
           <form class="mt-4 w-100 clearfix">
             <div class="form-group">
               <label for="title">Title :</label>
@@ -250,6 +250,10 @@ export default {
       this.$post("addComment/" + this.post.id, this.newComment)
         .then(data => {
           console.log(data);
+          this.comments.push(data.comment);
+          this.newComment.title = "";
+          this.newComment.content = "";
+          this.newComment.contentPreRender = "";
         })
         .catch(e => {
           console.log(e);

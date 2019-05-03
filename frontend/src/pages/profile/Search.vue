@@ -12,8 +12,7 @@
                 :alt="user.name"
                 :src="user.avatar | imageWatcher"
                 class="rounded-circle"
-                height="80"
-                width="80"
+                style="height:100px;width:100px"
               >
             </div>
             <div class="col-md-9">
@@ -53,7 +52,13 @@ export default {
   },
   methods: {
     async fetchUsersData() {
-      this.users = await this.$get("search-user/" + this.query);
+      this.$get("search-user/" + this.query)
+        .then(data => {
+          this.users = data.users;
+        })
+        .catch(e => {
+          console.log(e);
+        });
     }
   },
   mounted() {

@@ -23,6 +23,7 @@ class PostsController extends BaseController
         return $this->sendResponse([
             'author' => new UserResource($post->user),
             'post' => new PostResource($post),
+            "message" => ""
         ]);
     }
 
@@ -57,15 +58,14 @@ class PostsController extends BaseController
 
         $post->save();
 
-        return
-            [
-                "post_id" => $post->id,
-                "message" => "post was successfully created"
-            ];
+        return [
+            "post_id" => $post->id,
+            "message" => ""
+        ];
     }
 
 
-    protected function getUserPosts($user_id)
+    protected function getUserPosts($user_id,$page)
     {
         $posts = Post::where('user_id', "=", $user_id)->get();
 
@@ -73,11 +73,19 @@ class PostsController extends BaseController
             return new PostExcerptResource($post);
         });
 
-        return
-            [
-                "posts" => $postsResources,
-                "message" => "post was successfully created"
-            ];
+        $loadMore = true;
+
+        $postsResources = $postsResources->slice($page,3);
+
+        if ($postsResources->count() ==0 )
+            $loadMore =false;
+
+
+        return [
+            "posts" => $postsResources,
+            "message" => "",
+            "loadMore" => $loadMore,
+        ];
     }
 
     public function ratePost($post_id, $rate)
@@ -88,14 +96,13 @@ class PostsController extends BaseController
         if (Rating::where("rateable_id", $post_id)->where("user_id", $user->id)->first()) {
             $rating = Rating::where("rateable_id", $post_id)->where("user_id", $user->id)->first();
         } else
-            $rating->user_id =  $user->id;
+            $rating->user_id = $user->id;
 
         $rating->rating = $rate;
         $post->ratings()->save($rating);
 
-        return
-            [
-                "message" => "ok"
-            ];
+        return [
+            "message" => ""
+        ];
     }
 }

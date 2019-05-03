@@ -25,7 +25,7 @@ class CommentsController extends BaseController
         $comment->save();
 
         return [
-            "status" => "ok"
+            "comment" => new CommentResource($comment)
         ];
     }
 

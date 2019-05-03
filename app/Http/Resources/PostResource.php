@@ -16,23 +16,22 @@ class PostResource extends JsonResource
     public function toArray($request)
     {
         $sug = Post::all()->random(2);
-        
+
         return [
             'id' => $this->id,
             'title' => $this->title,
             'image' => $this->image,
-            'date' => $this->date,
-            'content' => $this->content,
+             'content' => $this->content,
             'topic' => $this->topic->name,
-            'rating' => $this->userAverageRating,
+            'rating' => (int) ( $this->userAverageRating ? $this->userAverageRating : 0 ) ,
             'topic_id' => $this->topic_id,
             'date' => $this->created_at->format('d M Y'),
-            'next'=> [
+            'next' => [
                 'id' => $sug[0]->id,
                 'title' => $sug[0]->title,
                 'image' => $sug[0]->image,
             ],
-            'previous'=> [
+            'previous' => [
                 'id' => $sug[1]->id,
                 'title' => $sug[1]->title,
                 'image' => $sug[1]->image,

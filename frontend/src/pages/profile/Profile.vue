@@ -41,6 +41,8 @@
           <span>Posts by {{profile.name}}</span>
         </h4>
         <MainLoopCard v-for="(post, index) in posts" :post="post" :key="index"/>
+
+        <scroll-loader :loader-method="getImagesInfo" :loader-enable="loadMore"></scroll-loader>
       </div>
     </div>
   </div>
@@ -48,6 +50,7 @@
 
 <script>
 import MainLoopCard from "@/components/layout/main-loop-card.vue";
+
 export default {
   name: "Profile",
   components: { MainLoopCard },
@@ -63,10 +66,13 @@ export default {
       },
       posts: [],
       follower: [],
-      following: []
+      following: [],
+      loadMore: true,
+      postsPage: 0
     };
   },
   methods: {
+    getImagesInfo() {},
     toggleFollow() {
       this.$get("toggle-follow/" + this.profile.id)
         .then(data => {
@@ -78,28 +84,56 @@ export default {
           console.log(e);
         });
     },
-    async fetchUserData() {
+    fetchUserData() {
       this.$get("users/" + this.$route.params.id)
         .then(data => {
           this.profile = data.user;
-          console.log(data);
         })
         .catch(e => {
           console.log(e);
         });
+    },
+    fetchUserPosts() {
+      if (!this.loadMore) return;
 
-      this.$get("user-posts/" + this.$route.params.id)
+      this.$get("user-posts/" + this.$route.params.id + "/" + this.postsPage)
         .then(data => {
-          this.posts = data.posts;
           console.log(data);
+          if (data.loadMore) {
+            if (this.postsPage != 0) {
+              Object.keys(data.posts).map(key => {
+                this.posts.push(data.posts[key]);
+              });
+            } else {
+              data.posts.forEach(post => {
+                this.posts.push(post);
+              });
+            }
+            this.postsPage += 3;
+            console.log("Posts", this.posts);
+          }
+          this.loadMore = data.loadMore;
         })
         .catch(e => {
           console.log(e);
         });
+    },
+    scroll(person) {
+      window.onscroll = () => {
+        let bottomOfWindow =
+          document.documentElement.scrollTop + window.innerHeight ===
+          document.documentElement.offsetHeight;
+
+        if (bottomOfWindow) {
+          this.fetchUserPosts();
+        }
+      };
     }
   },
   mounted() {
     this.fetchUserData();
+    this.fetchUserPosts();
+    this.scroll();
   },
   filters: {
     avatarWatch: function(imgName) {
@@ -109,6 +143,8 @@ export default {
   watch: {
     $route(to, from) {
       this.fetchUserData();
+      this.posts = [];
+      this.fetchUserPosts();
     }
   }
 };

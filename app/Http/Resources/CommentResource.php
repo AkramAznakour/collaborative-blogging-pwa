@@ -20,7 +20,7 @@ class CommentResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'content' => $this->content,
-            'date' => $this->created_at,
+            'date' => $this->created_at->format('d M Y'),
             'author' => [
                 'name'=> $this->user->name,
                 'image'=> $this->user->avatar,

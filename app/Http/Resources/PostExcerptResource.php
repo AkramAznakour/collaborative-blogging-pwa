@@ -15,17 +15,21 @@ class PostExcerptResource extends JsonResource
      */
     public function toArray($request)
     {
-        $sug = Post::all()->random(2);
+
+        $rating = 0;
+        if ($this->userAverageRating )
+            $rating = $this->userAverageRating;
 
         return [
             'id' => $this->id,
             'title' => $this->title,
             'image' => $this->image,
-            'rating' => $this->userAverageRating,
-            'excerpt' => substr(strip_tags($this->content),1,160)."..." ,
+            'rating' => (int) $rating  ,
+            'excerpt' => substr(strip_tags($this->content),1,120)."..." ,
             'topic' => $this->topic->name,
             'topic_id' => $this->topic_id,
             'date' => $this->created_at->format('d M Y'),
+            'time' => strtotime($this->created_at),
         ];
     }
 }

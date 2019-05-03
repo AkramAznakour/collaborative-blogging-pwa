@@ -134,6 +134,8 @@
           <span>All Stories</span>
         </h4>
         <MainLoopCard v-for="(post , index) in posts" :key="index" :post="post"/>
+
+        <scroll-loader :loader-method="getImagesInfo" :loader-enable="loadMore"></scroll-loader>
       </div>
 
       <div class="col-md-4">
@@ -153,30 +155,87 @@ export default {
   components: { SidebarFeatured, MainLoopCard, StarRating },
   data: () => ({
     BACKEND_IMG_PATH: process.env.VUE_APP_BACKEND_IMG_PATH,
+    allPosts: [],
     latest_post: {},
     second_posts: [],
     posts: [],
-    jumbotron_post: {}
+    jumbotron_post: {},
+    featureds: [],
+    loadMore: true,
+    postsPage: 0
   }),
 
   methods: {
-    async fetchUserData() {
-      this.$get("home/")
+    getImagesInfo() {},
+    async fetchUserFeed() {
+      this.$get("home/" + this.postsPage)
         .then(data => {
-          console.log(data);
-          this.latest_post = data.latest_post;
-          this.second_posts = data.second_posts;
-          this.posts = data.posts;
-          this.featureds = data.featureds;
-          this.jumbotron_post = data.posts[0];
+          // this.latest_post = data.latest_post;
+          // this.second_posts = data.second_posts;
+          // this.posts = data.posts;
+          // this.featureds = data.featureds;
+
+          this.allPosts = data.posts.sort((b, a) => a.time - b.time);
+
+          this.latest_post = this.allPosts.slice(0, 1)[0];
+          this.second_posts = this.allPosts.slice(1, 4);
+          this.posts = this.allPosts.slice(4);
+
+          this.featureds = this.allPosts
+            .sort((b, a) => a.rating - b.rating)
+            .slice(0, 5);
+
+          this.postsPage += 5;
         })
         .catch(e => {
           console.log(e);
         });
+    },
+    async fetchMoreUserFeed() {
+      this.$get("home/" + this.postsPage)
+        .then(data => {
+          // this.latest_post = data.latest_post;
+          // this.second_posts = data.second_posts;
+          // this.posts = data.posts;
+          // this.featureds = data.featureds;
+          if (data.loadMore) {
+            Object.keys(data.posts).map(key => {
+              this.allPosts.push(data.posts[key]);
+            });
+
+            this.allPosts = this.allPosts.sort((b, a) => a.time - b.time);
+
+            this.latest_post = this.allPosts.slice(0, 1)[0];
+            this.second_posts = this.allPosts.slice(1, 4);
+            this.posts = this.allPosts.slice(4);
+
+            this.featureds = this.allPosts
+              .sort((b, a) => a.rating - b.rating)
+              .slice(0, 5);
+          }
+          this.postsPage += 5;
+
+          this.loadMore = data.loadMore;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    scroll(person) {
+      window.onscroll = () => {
+        let bottomOfWindow =
+          document.documentElement.scrollTop + window.innerHeight ===
+          document.documentElement.offsetHeight;
+
+        if (bottomOfWindow) {
+          this.fetchMoreUserFeed();
+        }
+      };
     }
   },
   mounted() {
-    this.fetchUserData();
+    this.fetchUserFeed();
+    this.scroll();
   },
   filters: {
     imageUrlFilter: function(imgName) {
@@ -185,7 +244,7 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.fetchUserData();
+      this.fetchUserFeed();
     }
   }
 };
