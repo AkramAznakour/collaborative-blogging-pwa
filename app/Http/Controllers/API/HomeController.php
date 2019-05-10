@@ -6,28 +6,56 @@ namespace App\Http\Controllers\API;
 use App\Http\Resources\PostExcerptResource;
 use App\Http\Resources\PostResource;
 use App\Post;
+use App\Traits\AuthTokenResponses;
 use Illuminate\Http\Request;
 
 
 class HomeController extends BaseController
 {
+
+
     public function index($page)
     {
-        //$posts = $this->getUserPostsFeed();
-
-        $posts = $this->getUserPostsFeed()->slice( $page,5);
-
-
         $loadMore = true;
+        $message = "scroll down for more content";
 
-        if ($posts->count() == 0)
+        if (!auth()->check()) {
+
+            $posts = $this->getGenrerivPostsFeed()->slice($page, 5);
+
+
+            if ($posts->count() == 0):
+                $loadMore = false;
+                $message = "no more content to load";
+            endif;
+            return [
+                "posts" => $posts,
+                "loadMore" => $loadMore,
+                "message" => $message,
+            ];
+        }
+
+
+        $posts = $this->getUserPostsFeed()->slice($page, 5);
+
+        if ($posts->count() == 0):
+            $posts = $this->getGenrerivPostsFeed()->slice($page, 5);
+            if ($posts->count() == 0) :
+                $loadMore = false;
+            endif;
+
+        elseif ($posts->count() == 0):
             $loadMore = false;
+        endif;
 
+
+        if ($loadMore == false)
+            $message = "no more content to load";
 
         return [
             "posts" => $posts,
             "loadMore" => $loadMore,
-            "message" => "",
+            "message" => $message,
         ];
 
 
@@ -48,5 +76,17 @@ class HomeController extends BaseController
         }
 
         return collect($posts);
+    }
+
+    public function getGenrerivPostsFeed()
+    {
+        $posts = Post::all()->map(
+            function ($post) {
+                return new PostExcerptResource($post);
+            }
+        );
+
+
+        return $posts;
     }
 }

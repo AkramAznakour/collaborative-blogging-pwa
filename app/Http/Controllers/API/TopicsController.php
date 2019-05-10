@@ -34,7 +34,7 @@ class TopicsController extends BaseController
     {
         $topic = Topic::find($topic_id);
 
-        $posts = Post::where("topic_id","=",$topic_id)->take(10)->get();
+        $posts = Post::where("topic_id","=",$topic_id)->get();
 
         $featureds = Post::where("topic_id","=",$topic_id)->take(5)->get();
 
@@ -43,7 +43,7 @@ class TopicsController extends BaseController
             return new PostExcerptResource($featureds);
         });
 
-        $postsResources = $featureds->map(function ($posts) {
+        $postsResources = $posts->map(function ($posts) {
             return new PostExcerptResource($posts);
         });
 

@@ -17,8 +17,8 @@ class PostExcerptResource extends JsonResource
     {
 
         $rating = 0;
-        if ($this->userAverageRating )
-            $rating = $this->userAverageRating;
+        if ($this->averageRating )
+            $rating = $this->averageRating;
 
         return [
             'id' => $this->id,

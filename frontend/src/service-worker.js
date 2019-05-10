@@ -1,11 +1,15 @@
+const cacheName = "collab"
+
 self.addEventListener('install', event => {
     event.waitUntil(
         caches
-        .open('localhost')
+        .open(cacheName)
         .then(cache =>
             cache.addAll([
                 'app.js',
                 'service-worker.js',
+                '*.js',
+                'img/*.*'
             ])
         )
     )

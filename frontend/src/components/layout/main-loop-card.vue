@@ -12,7 +12,7 @@
           <star-rating
             :star-size="20"
             :glow="10"
-            v-model="post.rating"
+            :rating="post.rating"
             :show-rating="false"
             :border-width="0"
             :read-only="true"

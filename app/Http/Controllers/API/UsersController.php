@@ -48,10 +48,11 @@ class UsersController extends BaseController
     {
         $users = User::where('name', 'like', '%' . $name . '%')->get();
 
+        $message = "these are the search result for : " . $name;
+
         return [
             "users" => $users,
-            "message" => ""
-
+            "message" => $message
         ];
     }
 

@@ -60,13 +60,15 @@ class PostsController extends BaseController
 
         return [
             "post_id" => $post->id,
-            "message" => ""
+            "message" => "your post was successfully published"
         ];
     }
 
 
-    protected function getUserPosts($user_id,$page)
+    protected function getUserPosts($user_id, $page)
     {
+        $message = "scroll down for more content";
+
         $posts = Post::where('user_id', "=", $user_id)->get();
 
         $postsResources = $posts->map(function ($post) {
@@ -75,16 +77,17 @@ class PostsController extends BaseController
 
         $loadMore = true;
 
-        $postsResources = $postsResources->slice($page,3);
+        $postsResources = $postsResources->slice($page, 3);
 
-        if ($postsResources->count() ==0 )
-            $loadMore =false;
-
+        if ($postsResources->count() == 0):
+            $loadMore = false;
+            $message = "no more content to load";
+        endif;
 
         return [
             "posts" => $postsResources,
-            "message" => "",
             "loadMore" => $loadMore,
+            "message" => $message,
         ];
     }
 
@@ -93,6 +96,7 @@ class PostsController extends BaseController
         $user = auth()->user();
         $post = Post::find($post_id);
         $rating = new  Rating();
+
         if (Rating::where("rateable_id", $post_id)->where("user_id", $user->id)->first()) {
             $rating = Rating::where("rateable_id", $post_id)->where("user_id", $user->id)->first();
         } else
@@ -101,8 +105,10 @@ class PostsController extends BaseController
         $rating->rating = $rate;
         $post->ratings()->save($rating);
 
+        $message = "you have successfully rated this post with ".$rate;
+
         return [
-            "message" => ""
+            "message" => $message
         ];
     }
 }

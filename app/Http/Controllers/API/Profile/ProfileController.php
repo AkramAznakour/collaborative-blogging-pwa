@@ -40,7 +40,7 @@ class ProfileController extends BaseController
 
         return $this->sendResponse([
             'user' => new UserResource($user),
-            'message' => 'Password changed successfully!'
+            'message' => 'your password was successfully modified'
         ]);
     }
 
@@ -61,7 +61,7 @@ class ProfileController extends BaseController
 
         return $this->sendResponse([
             'user' => new UserResource($user),
-            'message' => 'User data changed successfully!'
+            'message' => 'your avatar was successfully modified'
         ]);
     }
 
@@ -86,7 +86,7 @@ class ProfileController extends BaseController
 
         return $this->sendResponse([
             'user' => new UserResource($user),
-            'message' => 'User data changed successfully!'
+            'message' => 'your avatar was successfully modified'
         ]);
     }
 }

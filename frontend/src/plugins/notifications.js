@@ -10,7 +10,7 @@ function toast({
     timeout,
     cb
 }) {
-    if (type === VueNotifications.types.warn) type = 'warning'
+    if (type === VueNotifications.types.warn) type = 'warning';
     return iziToast[type]({
         title,
         message,
@@ -23,13 +23,13 @@ const options = {
     error: toast,
     info: toast,
     warn: toast
-}
+};
 
-const $notify = {}
+const $notify = {};
 
 for (let type in options) {
     $notify[type] = (title, message = '', {
-        timeout = 3000
+        timeout = 1500
     } = {} /* <-- this arg is like options */ ) => {
         toast({
             type,
@@ -40,5 +40,5 @@ for (let type in options) {
     }
 }
 
-Vue.use(VueNotifications, options)
-Vue.prototype.$notify = $notify
+Vue.use(VueNotifications, options);
+Vue.prototype.$notify = $notify;

@@ -1,4 +1,5 @@
-export default [{
+export default [
+    {
         name: 'signup',
         path: '/signup',
         component: () => import('@/pages/auth/Signup.vue'),
@@ -33,7 +34,9 @@ export default [{
     {
         name: 'verify-email',
         path: '/verify-email',
-        component: () => import('@/pages/auth/VerifyEmail.vue')
-        // meta: { guest: true }
+        component: () => import('@/pages/auth/VerifyEmail.vue'),
+        meta: {
+            guest: true
+        }
     }
 ]

@@ -16,8 +16,11 @@ class FollowingController extends BaseController
 
         $user->toggleFollow($folled_user);
 
+        $message = "you have toggled your following for ".$folled_user->names;
+
         return [
-            "toggleFollow"=> true
+            "toggleFollow"=> true,
+            "message"=>$message
         ];
     }
 

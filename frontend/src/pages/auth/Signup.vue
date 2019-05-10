@@ -84,7 +84,6 @@
 
 <script>
 import { mapActions } from "vuex";
-import { log } from "util";
 
 export default {
   name: "Signup",

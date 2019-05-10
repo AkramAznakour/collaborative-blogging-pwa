@@ -63,8 +63,10 @@
                   :star-size="25"
                   :glow="10"
                   v-model="post.rating"
+                  :rating="post.rating"
                   :show-rating="false"
                   :border-width="0"
+                  :read-only="$auth.user == null"
                   @rating-selected="setPostRating"
                   :rounded-corners="true"
                 ></star-rating>
@@ -149,6 +151,9 @@
         <h4 class="font-weight-bold spanborder">
           <span>Comments</span>
         </h4>
+          <div  v-if="comments.length == 0" class="container text-center"  >
+            <h6>no comments</h6>
+          </div>
         <div
           class="mb-5 row d-flex justify-content-between main-loop-card"
           v-for="(comment, index) in comments"
@@ -180,7 +185,7 @@
     </div>
 
     <!-- comments -->
-    <div class="row pt-5">
+    <div class="row pt-5" v-if="$auth.user !=null">
       <div class="container">
         <h4 class="font-weight-bold spanborder">
           <span>Add comment</span>
@@ -200,7 +205,7 @@
             </div>
 
             <div class="form-group">
-              <label for="content">Content :</label>
+              <label >Content :</label>
               <mavon-editor
                 v-model="newComment.contentPreRender"
                 ref="md"
@@ -223,6 +228,7 @@
 
 <script>
 import StarRating from "vue-star-rating";
+import  {vp}  from '@/tools/helpers'
 
 export default {
   components: { StarRating },
@@ -249,8 +255,7 @@ export default {
 
       this.$post("addComment/" + this.post.id, this.newComment)
         .then(data => {
-          console.log(data);
-          this.comments.push(data.comment);
+           this.comments.push(data.comment);
           this.newComment.title = "";
           this.newComment.content = "";
           this.newComment.contentPreRender = "";
@@ -259,7 +264,6 @@ export default {
           console.log(e);
         });
 
-      console.log(form_data);
 
       this.loading = false;
     },
@@ -269,19 +273,18 @@ export default {
     async setPostRating(rating) {
       this.$get("rate/" + this.post.id + "/" + rating)
         .then(data => {
-          console.log(data);
+             vp.$notify.succes(data.message);
         })
         .catch(e => {
           console.log(e);
         });
 
-      console.log(rating);
-    },
+     },
     async fetchPostData() {
       this.$get("posts/" + this.$route.params.id)
         .then(data => {
           this.post = data.post;
-          this.author = data.author;
+           this.author = data.author;
         })
         .catch(e => {
           console.log(e);
@@ -289,8 +292,7 @@ export default {
 
       this.$get("getComments/" + this.$route.params.id)
         .then(data => {
-          console.log(data);
-          this.comments = data.comments;
+           this.comments = data.comments;
         })
         .catch(e => {
           console.log(e);

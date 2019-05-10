@@ -17,13 +17,17 @@ class PostResource extends JsonResource
     {
         $sug = Post::all()->random(2);
 
+        $rating = 0;
+        if ($this->averageRating )
+            $rating = $this->averageRating;
+
         return [
             'id' => $this->id,
             'title' => $this->title,
             'image' => $this->image,
              'content' => $this->content,
             'topic' => $this->topic->name,
-            'rating' => (int) ( $this->userAverageRating ? $this->userAverageRating : 0 ) ,
+            'rating' => (int) $rating ,
             'topic_id' => $this->topic_id,
             'date' => $this->created_at->format('d M Y'),
             'next' => [

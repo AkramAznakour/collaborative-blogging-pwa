@@ -41,6 +41,8 @@
 
 <script>
 import MainLoopCard from "@/components/layout/main-loop-card.vue";
+import  {vp}  from '@/tools/helpers'
+
 export default {
   name: "Profile",
   components: { MainLoopCard },
@@ -55,6 +57,8 @@ export default {
       this.$get("search-user/" + this.query)
         .then(data => {
           this.users = data.users;
+            vp.$notify.info(data.message)
+
         })
         .catch(e => {
           console.log(e);

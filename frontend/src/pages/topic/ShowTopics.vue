@@ -4,19 +4,19 @@
       <div class="col-md-8">
         <h1 class="font-weight-bold title h2 text-uppercase mb-4">Topics</h1>
 
-        <div v-for="(topic, index) in topics" :key="index">
+        <div v-if="topics.length > 0" v-for="(topic, index) in topics" :key="index">
           <h4 class="font-weight-bold h3 spanborder text-capitalize">
             <a href @click.prevent="$router.push({ name: 'show-topic', params: { id: topic.id } })">
               <span>{{ topic.name }}</span>
             </a>
           </h4>
 
-          <MainLoopCard :post="topic.post"/>
+          <MainLoopCard v-if="topic.post !=null" :post="topic.post"/>
         </div>
       </div>
 
       <div class="col-md-4">
-        <SidebarFeatured :posts="featureds"/>
+        <SidebarFeatured v-if="featureds" :posts="featureds"/>
       </div>
     </div>
   </div>

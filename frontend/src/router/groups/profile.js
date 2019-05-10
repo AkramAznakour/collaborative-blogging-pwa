@@ -3,7 +3,7 @@ export default [{
         name: 'profile',
         component: () => import('@/pages/profile/Profile.vue'),
         meta: {
-            auth: true
+            auth: false
         },
     },
     {
