@@ -24,10 +24,10 @@ Vue.use(VueAxios, {
 
 
         beforeRequest(config, axiosInstance) {
+            console.log("config",config);
 
             if (config.baseURL === baseApiURL) {
                 const token = store.state.auth.token;
-
                 if (token) {
                     config.headers.Authorization = `Bearer ${token}`
                 }
@@ -45,21 +45,23 @@ Vue.use(VueAxios, {
             }
             return config
         },
+
         beforeResponseError(error) {
             const {
                 response,
                 message
             } = error;
-
+            console.log("error : ",error);
             if (response) { // backend error
-                showServerError(response)
+                // showServerError(response)
                 console.log("response message : ", response)
-                 vp.$notify.error(message)
+                vp.$notify.error(message)
+
                 // if 401
             } else if (message) { // network error
-                console.log("error message : ", message)
 
-                 vp.$notify.error(message)
+                console.log("error message : ", message)
+                vp.$notify.error(message)
             }
 
             // return Promise.reject(error)

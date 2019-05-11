@@ -102,17 +102,24 @@
                 if (this.form.image)
                     form_data.append("image", this.form.image, this.form.image.fileName);
 
-                const {post_id, message} = await this.$post("posts/", form_data);
 
-                vp.$notify.success(message);
+                this.$post("posts", form_data)
+                    .then(data => {
 
-                this.$router.push({name: "show-post", params: {id: post_id}});
+                        console.log(data);
+                        vp.$notify.success(data.message);
 
-                this.loading = false;
+                        this.$router.push({name: "show-post", params: {id: data.post_id}});
+
+                        this.loading = false;
+                    })
+                    .catch(e => console.log(e));
+
+
             },
             ...mapActions("posts", ["addPost"])
         },
-        mounted(){
+        mounted() {
             vp.$notify.info("make sur you save your article on the editor before submiting");
         }
     };
