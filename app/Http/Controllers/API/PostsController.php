@@ -13,7 +13,7 @@ class PostsController extends BaseController
 {
     public function index()
     {
-        return Post::orderBy('created_at', 'desc')->random(10);
+        return Post::orderBy('created_at', 'desc')->get();
     }
 
     public function show($post_id)
