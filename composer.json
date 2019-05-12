@@ -12,12 +12,12 @@
         "laravel/tinker": "^1.0",
         "overtrue/laravel-follow": "^1.1",
         "tymon/jwt-auth": "dev-develop",
-        "willvincent/laravel-rateable": "^1.07"
+        "willvincent/laravel-rateable": "^1.07",
+        "fzaninotto/faker": "^1.4"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
         "filp/whoops": "^2.0",
-        "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^2.0",
         "phpunit/phpunit": "^7.0"
