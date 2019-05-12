@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     async fetchTpoicsData() {
-      this.$get("topics/")
+      this.$get("topics")
         .then(data => {
           console.log(data);
           this.topics = data.topics;

@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -13,6 +12,13 @@ class DatabaseSeeder extends Seeder
     {
 
 
+
+        $this->call([
+            UsersTableSeeder::class,
+            TopicsTableSeeder::class,
+            PostsTableSeeder::class,
+            CommentsTableSeeder::class,
+        ]);
 
 
     }

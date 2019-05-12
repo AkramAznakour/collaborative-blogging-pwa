@@ -1,6 +1,8 @@
+!public/img/seeds/posts/*
+!public/img/seeds/avatars/*
+
 /node_modules
 /public/hot
-/public/img
 /public/storage
 /storage/*.key
 /vendor

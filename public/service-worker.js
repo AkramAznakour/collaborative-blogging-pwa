@@ -1,4 +1,4 @@
-importScripts("/precache-manifest.ce634a2bc3e23ef7bd525c038cf61cc7.js", "https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
+importScripts("/precache-manifest.42a9fd45aae1794c0a5b567746762bb9.js", "https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 const cacheName = "collab"
 
